@@ -1,14 +1,15 @@
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Vector;
 
 public class PathFinder {
-    private LinkedGrid grid;
-    private Point2D start;
-    private Point2D end;
-    private Vector<Point2D> path;
+    private final LinkedGrid grid;
+    private final Point2D start;
+    private final Point2D end;
+    private final Vector<Point2D> path;
 
     // Preconditions: No null links, and a non-blocked path
     public PathFinder(LinkedGrid grid, Point2D start, Point2D end)
-        throws UnreachablePointException {
+            throws UnreachablePointException {
         this.grid = grid;
         this.start = start;
         this.end = end;
@@ -23,17 +24,29 @@ public class PathFinder {
     }
 
     private void fillGrid() {
+        ConcurrentLinkedQueue<Node> fillQueue = new ConcurrentLinkedQueue<>();
+        Node startNode = grid.getNode(start);
         Node endNode = grid.getNode(end);
         int fillValue = LinkedGrid.BLOCKED + 1;
 
-        endNode.setValue(fillValue);
-        fillNeighbors(endNode, fillValue + 1);
+        fillQueue.add(endNode);
+        while (fillQueue.size() != 0) {
+            int nodesToFill = fillQueue.size();
+
+            while (nodesToFill != 0) {
+                Node fillNode = fillQueue.poll();
+                fillNode.setValue(fillValue);
+
+                queueNeighbors(fillQueue, fillNode);
+                nodesToFill--;
+            }
+
+            fillValue++;
+        }
     }
 
-    // TODO: Build a list of nodes to fill and fill in order
-    private void fillNeighbors(Node node, int fillValue) {
+    private void queueNeighbors(ConcurrentLinkedQueue<Node> queue, Node node) {
         Node[] neighbors = node.getNeighbors();
-        Vector<Node> fillableNodes = new Vector<>(4);
         for (Node neighbor : neighbors) {
             int nodeValue;
             if (neighbor != null) {
@@ -43,15 +56,8 @@ public class PathFinder {
             }
 
             if (nodeValue == LinkedGrid.UNFILLED) {
-                neighbor.setValue(fillValue);
-                fillableNodes.add(neighbor);
+                queue.add(neighbor);
             }
-        }
-
-        // System.out.println(grid);
-
-        for (Node neighbor : fillableNodes) {
-            fillNeighbors(neighbor, fillValue + 1);
         }
     }
 
@@ -66,7 +72,7 @@ public class PathFinder {
 
     // Find first node with a lower value
     private Point2D getNextNode(Point2D coordinates)
-        throws UnreachablePointException {
+            throws UnreachablePointException {
         Point2D nextNode = new Point2D(coordinates);
         Node current = grid.getNode(coordinates);
 
@@ -103,10 +109,9 @@ public class PathFinder {
         boolean isLess;
         int secondVal = second.getValue();
         int comparison = second.compareTo(first);
-        if (secondVal == LinkedGrid.BLOCKED) {
+        if (secondVal == LinkedGrid.UNFILLED
+            || secondVal == LinkedGrid.BLOCKED) {
             isLess = false;
-        } else if (secondVal == LinkedGrid.UNFILLED) {
-            throw new RuntimeException("Unfilled node reachable");
         } else if (comparison == -1) {
             isLess = true;
         } else { // Higher or equal value
@@ -132,28 +137,43 @@ public class PathFinder {
     }
 
     public static void main(String[] args) {
-        LinkedGrid grid = new LinkedGrid(5, 5);
-        Point2D point = new Point2D(1, 0);
-        // System.exit(1);
+        LinkedGrid grid = new LinkedGrid(6, 12);
         // grid.getNode(0, 1).setValue(LinkedGrid.BLOCKED);
+        // grid.getNode(1, 1).setValue(LinkedGrid.BLOCKED);
+        // grid.getNode(2, 1).setValue(LinkedGrid.BLOCKED);
+        // // grid.getNode(3, 1).setValue(LinkedGrid.BLOCKED);
+        // grid.getNode(4, 1).setValue(LinkedGrid.BLOCKED);
+        // // grid.getNode(5, 3).setValue(LinkedGrid.BLOCKED);
+        // grid.getNode(4, 3).setValue(LinkedGrid.BLOCKED);
+        // grid.getNode(3, 3).setValue(LinkedGrid.BLOCKED);
+        // // grid.getNode(2, 3).setValue(LinkedGrid.BLOCKED);
         // grid.getNode(1, 3).setValue(LinkedGrid.BLOCKED);
+
         System.out.println(grid);
 
-        Point2D start = new Point2D(2, 3);
-        Point2D end = new Point2D(0, 0);
+        Point2D start = new Point2D(2, 2);
+        Point2D end = new Point2D(5, 11);
         System.out.println("Start: " + start);
         System.out.println("End: " + end);
 
-        System.out.println("Calculating...");
+        System.out.println("Calculating...\n");
         PathFinder wave = null;
 
         try {
             wave = new PathFinder(grid, start, end);
         } catch (UnreachablePointException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
         System.out.println(grid);
         System.out.println(wave);
+
+        Point2D[] path = wave.getPath();
+        int actualDistance = path.length - 1;
+        int predictedDistance = start.distance(end);
+
+        System.out.println("\nDistance:\n\tActual: " + actualDistance
+                           + "\n\tPredicted:" + predictedDistance);
     }
 }

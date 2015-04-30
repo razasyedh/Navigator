@@ -27,18 +27,14 @@ class Point2D {
 
     public int getY() {return y;}
 
-    // d = \sqrt((x_2 - x_1)^2 + (y_2 - y_1)^2)
-    public double distance(Point2D pt) {
+    public int distance(Point2D pt) {
         int x2 = pt.getX();
         int y2 = pt.getY();
 
-        int d1 = (x2 - x);
-        int d2 = (y2 - y);
+        int d1 = Math.abs(x2 - x);
+        int d2 = Math.abs(y2 - y);
 
-        double d1sq = Math.pow(d1, 2);
-        double d2sq = Math.pow(d2, 2);
-
-        return Math.sqrt(d1sq + d2sq);
+        return d1 + d2;
     }
 
     public void setX(int x) {

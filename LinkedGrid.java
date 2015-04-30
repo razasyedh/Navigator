@@ -1,7 +1,7 @@
 public class LinkedGrid {
-    private Node[][] grid;
-    private int rows;
-    private int cols;
+    private final Node[][] grid;
+    private final int rows;
+    private final int cols;
     public static final int UNFILLED = 0;
     public static final int BLOCKED = 1;
 
@@ -66,7 +66,7 @@ public class LinkedGrid {
             String colNum = String.format("%3s", j);
             result += " " + colNum;
         }
-        result += "\nX |‾\n";
+        result += "\nX _|\n";
 
         for (int i = 0; i < rows; i++) {
             // Row numbers
