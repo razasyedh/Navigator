@@ -13,34 +13,25 @@ public class PathFinder {
         this.start = start;
         this.end = end;
 
+        path = new Vector<>();
         calculatePath();
     }
 
     private void calculatePath() throws UnreachablePointException {
-        path = new Vector<>();
         fillGrid();
         traverseGrid();
     }
 
     private void fillGrid() {
         Node endNode = grid.getNode(end);
-        Node startNode = grid.getNode(start);
         int fillValue = LinkedGrid.BLOCKED + 1;
+
         endNode.setValue(fillValue);
-        fillNeighbors(endNode, startNode, fillValue + 1, false);
+        fillNeighbors(endNode, fillValue + 1);
     }
 
-    private void fillNeighbors(Node node, final Node lastNode, int fillValue,
-                               boolean lastReached) {
-        if (lastReached) {
-            return;
-        }
-
-        if (node == lastNode) {
-            lastReached = true;
-            return;
-        }
-
+    // TODO: Build a list of nodes to fill and fill in order
+    private void fillNeighbors(Node node, int fillValue) {
         Node[] neighbors = node.getNeighbors();
         Vector<Node> fillableNodes = new Vector<>(4);
         for (Node neighbor : neighbors) {
@@ -60,9 +51,7 @@ public class PathFinder {
         // System.out.println(grid);
 
         for (Node neighbor : fillableNodes) {
-            if (neighbor != null) {
-                fillNeighbors(neighbor, lastNode, fillValue + 1, lastReached);
-            }
+            fillNeighbors(neighbor, fillValue + 1);
         }
     }
 
@@ -143,15 +132,15 @@ public class PathFinder {
     }
 
     public static void main(String[] args) {
-        LinkedGrid grid = new LinkedGrid(3, 6);
+        LinkedGrid grid = new LinkedGrid(5, 5);
         Point2D point = new Point2D(1, 0);
         // System.exit(1);
         // grid.getNode(0, 1).setValue(LinkedGrid.BLOCKED);
         // grid.getNode(1, 3).setValue(LinkedGrid.BLOCKED);
         System.out.println(grid);
 
-        Point2D start = new Point2D(2, 5);
-        Point2D end = new Point2D(0, 1);
+        Point2D start = new Point2D(2, 3);
+        Point2D end = new Point2D(0, 0);
         System.out.println("Start: " + start);
         System.out.println("End: " + end);
 

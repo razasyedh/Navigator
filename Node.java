@@ -1,4 +1,5 @@
 public class Node {
+    // TODO: Make these final
     private Node north;
     private Node south;
     private Node west;
