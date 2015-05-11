@@ -1,3 +1,5 @@
+// package com.syedraza.pathfinder;
+
 public class LinkedGrid {
     private final Node[][] grid;
     private final int rows;
@@ -37,6 +39,24 @@ public class LinkedGrid {
                 if (j != cols-1) {
                     grid[i][j].setNorth(grid[i][j+1]);
                 }
+            }
+        }
+    }
+
+    public void partialReset() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j].getValue() != BLOCKED) {
+                    grid[i][j].setValue(UNFILLED);
+                }
+            }
+        }
+    }
+
+    public void fullReset() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                grid[i][j].setValue(UNFILLED);
             }
         }
     }

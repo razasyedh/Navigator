@@ -1,3 +1,5 @@
+// package com.syedraza.pathfinder;
+
 public class UnreachablePointException extends Exception {
     public UnreachablePointException() {
         super();

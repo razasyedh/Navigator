@@ -1,10 +1,12 @@
+// package com.syedraza.pathfinder;
+
 import java.lang.Math;
 
 // Although AWT has a nearly identical class, it is reimplemented here
 // because that implementation returns <code>int</code> coordinates as
 // <code>double</code>s, which is undesirable since these coordinates are
 // used as array indices.
-class Point2D {
+public class Point2D {
     private int x;
     private int y;
 
@@ -21,6 +23,17 @@ class Point2D {
     Point2D(Point2D p) {
         x = p.getX();
         y = p.getY();
+    }
+
+    static Point2D reverse(Point2D p) {
+        if (p == null) {
+            return null;
+        }
+
+        int x = p.getX();
+        int y = p.getY();
+
+        return new Point2D(y, x);
     }
 
     public int getX() {return x;}

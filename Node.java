@@ -1,3 +1,5 @@
+// package com.syedraza.pathfinder;
+
 public class Node {
     // TODO: Make these final
     private Node north;

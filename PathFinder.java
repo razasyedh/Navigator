@@ -1,18 +1,26 @@
+// package com.syedraza.pathfinder;
+
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Vector;
 
 public class PathFinder {
     private final LinkedGrid grid;
-    private final Point2D start;
-    private final Point2D end;
+    private Point2D start;
+    private Point2D end;
     private final Vector<Point2D> path;
 
     // Preconditions: No null links, and a non-blocked path
+    // + start and end have to be different
     public PathFinder(LinkedGrid grid, Point2D start, Point2D end)
             throws UnreachablePointException {
         this.grid = grid;
         this.start = start;
         this.end = end;
+
+        if (start.equals(end)) {
+            throw new IllegalArgumentException("End point is the same as the"
+                                               + "start point.");
+        }
 
         path = new Vector<>();
         calculatePath();
@@ -36,6 +44,11 @@ public class PathFinder {
             while (nodesToFill != 0) {
                 Node fillNode = fillQueue.poll();
                 fillNode.setValue(fillValue);
+
+                if (fillNode == startNode) {
+                    fillQueue.clear();
+                    break;
+                }
 
                 queueNeighbors(fillQueue, fillNode);
                 nodesToFill--;
@@ -62,6 +75,10 @@ public class PathFinder {
     }
 
     private void traverseGrid() throws UnreachablePointException {
+        if (path.size() != 0) {
+            path.clear();
+        }
+
         Point2D coordinates = start;
         while (!coordinates.equals(end)) {
             path.add(coordinates);
@@ -121,6 +138,22 @@ public class PathFinder {
         return isLess;
     }
 
+    public void setStart(Point2D start) throws UnreachablePointException {
+        this.start = start;
+        traverseGrid();
+    }
+
+    public void setEnd(Point2D end) throws UnreachablePointException {
+        this.start = end;
+        recalculate();
+    }
+
+    // Must be called if (un)blocking any nodes
+    public void recalculate() throws UnreachablePointException {
+        grid.reset();
+        calculatePath();
+    }
+
     public Point2D[] getPath() {
         Point2D[] emptyArray = new Point2D[path.size()];
         return path.toArray(emptyArray);
@@ -138,21 +171,21 @@ public class PathFinder {
 
     public static void main(String[] args) {
         LinkedGrid grid = new LinkedGrid(6, 12);
-        // grid.getNode(0, 1).setValue(LinkedGrid.BLOCKED);
-        // grid.getNode(1, 1).setValue(LinkedGrid.BLOCKED);
-        // grid.getNode(2, 1).setValue(LinkedGrid.BLOCKED);
-        // // grid.getNode(3, 1).setValue(LinkedGrid.BLOCKED);
-        // grid.getNode(4, 1).setValue(LinkedGrid.BLOCKED);
-        // // grid.getNode(5, 3).setValue(LinkedGrid.BLOCKED);
-        // grid.getNode(4, 3).setValue(LinkedGrid.BLOCKED);
-        // grid.getNode(3, 3).setValue(LinkedGrid.BLOCKED);
-        // // grid.getNode(2, 3).setValue(LinkedGrid.BLOCKED);
-        // grid.getNode(1, 3).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(0, 1).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(1, 1).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(2, 1).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(3, 1).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(4, 1).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(5, 3).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(4, 3).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(3, 3).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(2, 3).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(1, 3).setValue(LinkedGrid.BLOCKED);
 
         System.out.println(grid);
 
-        Point2D start = new Point2D(2, 2);
-        Point2D end = new Point2D(5, 11);
+        Point2D start = new Point2D(4, 8);
+        Point2D end = new Point2D(2, 2);
         System.out.println("Start: " + start);
         System.out.println("End: " + end);
 
