@@ -1,12 +1,25 @@
-// package com.syedraza.pathfinder;
-
+/**
+ * A linked grid that connects and manages nodes.
+ */
 public class LinkedGrid {
+    /** A 2D array representing a grid of nodes. */
     private final Node[][] grid;
-    private final int rows;
-    private final int cols;
+    /** The number of rows in the grid. */
+    private int rows;
+    /** The number of columns in the grid. */
+    private int cols;
+    /** The default value of an unfilled node. */
     public static final int UNFILLED = 0;
+    /** The value of a node that has been blocked. */
     public static final int BLOCKED = 1;
 
+    /**
+     * Creates a linked grid of the specified size, linking each node to each
+     * other.
+     *
+     * @param rows The number of rows.
+     * @param cols The number of columns.
+     */
     public LinkedGrid(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
@@ -21,6 +34,9 @@ public class LinkedGrid {
         linkNodes();
     }
 
+    /**
+     * Links nodes to each other based on their position in the grid.
+     */
     private void linkNodes() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -43,6 +59,9 @@ public class LinkedGrid {
         }
     }
 
+    /**
+     * Resets every node except blocked nodes.
+     */
     public void partialReset() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -53,6 +72,9 @@ public class LinkedGrid {
         }
     }
 
+    /**
+     * Resets every node.
+     */
     public void fullReset() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -61,48 +83,63 @@ public class LinkedGrid {
         }
     }
 
+    /**
+     * Gets the node specified by the given coordinates,
+     *
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The node located at the given point.
+     */
     public Node getNode(int x, int y) {
         return grid[x][y];
     }
 
+    /**
+     * Gets the node specified by the given point,
+     *
+     * @param p The 2D point.
+     * @return The node located at the given point.
+     */
     public Node getNode(Point2D p) {
         int x = p.getX();
         int y = p.getY();
         return getNode(x, y);
     }
 
-    // public Point2D getNorthernPoint() {
-
-    // }
-
-    // Note: The axes of the grid are switched, so the x coordinate would
-    //       correspond to the vertical axis and vice-versa.
+    /**
+     * Returns a string representation of the grid with numbered axes.
+     * <p>
+     * Note: The axes of the grid are switched, so the x coordinate would
+     * correspond to the vertical axis and vice-versa.
+     *
+     * @return The formatted grid as a string.
+     */
     @Override
     public String toString() {
-        String result = "\\Y";
+        StringBuilder result = new StringBuilder("\\Y");
 
         // Column numbers
         for (int j = 0; j < cols; j++) {
             String colNum = String.format("%3s", j);
-            result += " " + colNum;
+            result.append(" " + colNum);
         }
-        result += "\nX _|\n";
+        result.append("\nX _|\n");
 
         for (int i = 0; i < rows; i++) {
             // Row numbers
             String row = String.format("%2s", i);
-            result += row + " ";
+            result.append(row + " ");
 
             for (int j = 0; j < cols; j++) {
                 String node = grid[i][j].toString();
                 String valueString = String.format("%3s", node);
 
-                result += valueString  + " ";
+                result.append(valueString  + " ");
             }
-            result += "\n";
+            result.append("\n");
         }
 
-        return result;
+        return result.toString();
     }
 
     public static void main(String[] args) {

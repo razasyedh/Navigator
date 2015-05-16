@@ -6,6 +6,9 @@ import javax.swing.border.*;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
+/**
+ * Instantiates the navigator GUI for pathfinding.
+ */
 public class Navigator {
     public static void main(String[] args) {
         DrawFrame frame = new DrawFrame();
@@ -13,10 +16,13 @@ public class Navigator {
     }
 }
 
+/**
+ * A GUI for creating and manipulating a fixed-size grid for pathfinding.
+ */
 class DrawFrame extends JFrame {
     private static final int GRID_WIDTH = 15;
     private static final int GRID_HEIGHT = 10;
-    protected String cursorMode;
+    private String cursorMode;
     private ArrayList<JButton> toggleButtons;
     private GridCanvas gridCanvas;
     private JButton navigateButton, resetButton;
@@ -24,8 +30,10 @@ class DrawFrame extends JFrame {
     private LinkedGrid grid;
     private Point2D start, end;
     private Point2D[] path;
-    private PathFinder pathFinder;
 
+    /**
+     * Sets up everything necessary for the GUI to function.
+     */
     public DrawFrame() {
         grid = new LinkedGrid(GRID_HEIGHT, GRID_WIDTH);
         toggleButtons = new ArrayList<>(4);
@@ -36,21 +44,30 @@ class DrawFrame extends JFrame {
         setListeners();
     }
 
+    /**
+     * Sets defaults so users can see an example on startup.
+     */
     private void setDefaults() {
         start = new Point2D(0, 0);
         end = new Point2D(0, 3);
         grid.getNode(0, 2).setValue(LinkedGrid.BLOCKED);
     }
 
+    /**
+     * Applies seetings for the main application window.
+     */
     private void applySettings() {
         setSize(595, 500);
         setLocation(100, 100);
         setTitle("Navigator");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);
     }
 
+    /**
+     * Adds the components of the interface.
+     */
     private void addComponents() {
         gridCanvas = new GridCanvas(GRID_HEIGHT, GRID_WIDTH, grid, start, end);
         add(gridCanvas, BorderLayout.CENTER);
@@ -93,6 +110,9 @@ class DrawFrame extends JFrame {
         add(options, BorderLayout.SOUTH);
     }
 
+    /**
+     * Adds listeners for various events.
+     */
     private void setListeners() {
         for (JButton button : toggleButtons) {
             button.addActionListener(new ToggleListener(button.getText()));
@@ -105,12 +125,16 @@ class DrawFrame extends JFrame {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                resetCursor();
                 fullReset();
                 gridCanvas.repaint();
             }
         });
     }
 
+    /**
+     * Resets a point specified by name.
+     */
     private void resetPoint(String name) {
         if (name.equals("start")) {
             start = null;
@@ -123,16 +147,26 @@ class DrawFrame extends JFrame {
         resetNavigation();
     }
 
+    /**
+     * Resets the path.
+     */
     public void resetPath() {
         path = null;
         gridCanvas.setPath(null);
     }
 
+    /**
+     * Resets everything that has to do with navigation which is the path and
+     * the grid.
+     */
     private void resetNavigation() {
         resetPath();
         grid.partialReset();
     }
 
+    /**
+     * Resets everything including the grid, points, and the path.
+     */
     private void fullReset() {
         resetPath();
         resetPoint("start");
@@ -140,15 +174,32 @@ class DrawFrame extends JFrame {
         grid.fullReset();
     }
 
-    // When a toggle button is clicked, change the mode and cursor
+    /**
+     * Resets the cursor to the default.
+     */
+    public void resetCursor() {
+        setCursor(
+            Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
+        );
+        cursorMode = null;
+    }
+
+    /**
+     * A listener that changes the cursor when a toggle button is clicked.
+     */
     class ToggleListener implements ActionListener {
         private String mode;
 
+        /**
+         * Creates a listener with the given mode.
+         */
         public ToggleListener(String mode) {
-            super();
             this.mode = mode;
         }
 
+        /**
+         * Changes the cursor and mode when a button is clicked.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             cursorMode = mode;
@@ -158,24 +209,29 @@ class DrawFrame extends JFrame {
         }
     }
 
-    // When a toggle button is clicked, listen for the escape key to reset
-    // the cursor
+    /**
+     * A listener that checks for the escape key to reset the cursor
+     * after a toggle button was clicked.
+     */
     class EscapeListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                setCursor(
-                    Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
-                );
+                resetCursor();
             }
         }
     }
 
-    // Determine the circle that was clicked and toggle it
+    /**
+     * A listener that locates the circle that was clicked and toggles it.
+     */
     class ToggleClickListener extends MouseAdapter {
         private Ellipse2D[][] circles;
         private double clickX, clickY;
 
+        /**
+         * Finds a circle and toggles it, resetting the cursor.
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
             if (cursorMode == null) {
@@ -187,102 +243,112 @@ class DrawFrame extends JFrame {
                 clickY = (double) e.getY();
                 circles = gridCanvas.getCircles();
 
-                boolean found = findCircle();
-                if (!found) {
+                Point2D p = findCircle();
+                if (p == null) {
                     return;
                 }
 
-                // Reset cursor
-                cursorMode = null;
-                setCursor(
-                    Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
-                );
+                toggleCircle(p);
+                resetCursor();
             }
         }
 
-        private boolean findCircle() {
-            boolean found = false;
-            for (int i = 0; i < circles.length && !found; i++) {
-                for (int j = 0; j < circles[i].length && !found; j++) {
+        /**
+         * Finds the circle that was clicked on.
+         *
+         * @return The coordinates of the circle or null if one wasn't clicked.
+         */
+        private Point2D findCircle() {
+            for (int i = 0; i < circles.length; i++) {
+                for (int j = 0; j < circles[i].length; j++) {
                     Ellipse2D circle = circles[i][j];
                     if (circle.contains(clickX, clickY)) {
-                        found = true;
-                        Point2D p = new Point2D(i, j);
-
-                        if (cursorMode.equals("Start")) {
-                            if (end != null && p.equals(end)) {
-                                displayStartEqualEndError();
-                                return found;
-                            }
-
-                            if (path != null) {
-                                resetPoint("start");
-                            }
-
-                            if (grid.getNode(p).getValue()
-                                == LinkedGrid.BLOCKED) {
-                                displayStartEndBlockError();
-                                return found;
-                            }
-
-                            start = p;
-                            gridCanvas.setStart(p);
-                        } else if (cursorMode.equals("End")) {
-                            if (start != null && p.equals(start)) {
-                                displayStartEqualEndError();
-                                return found;
-                            }
-
-                            if (grid.getNode(p).getValue()
-                                == LinkedGrid.BLOCKED) {
-                                displayStartEndBlockError();
-                                return found;
-                            }
-
-                            if (path != null) {
-                                resetPoint("end");
-                            }
-
-                            end = p;
-                            gridCanvas.setEnd(p);
-                        }
-
-                        if (cursorMode.equals("Block")) {
-                            if (path != null) {
-                                resetNavigation();
-                            }
-
-                            if ((start != null && p.equals(start))
-                                || (end != null && p.equals(end))) {
-                                displayStartEndBlockError();
-                                return found;
-                            }
-
-                            grid.getNode(p).setValue(LinkedGrid.BLOCKED);
-                        } else if (cursorMode.equals("None")) {
-                            if (start != null && p.equals(start)) {
-                                resetPoint("start");
-                            }
-
-                            if (end != null && p.equals(end)) {
-                                resetPoint("end");
-                            }
-
-                            if (path != null) {
-                                resetNavigation();
-                            }
-
-                            grid.getNode(p).setValue(LinkedGrid.UNFILLED);
-                        }
-
-                        gridCanvas.repaint();
+                        return new Point2D(i, j);
                     }
                 }
             }
 
-            return found;
+            return null;
         }
 
+        /**
+         * Toggles the state of the circle clicked on.
+         *
+         * @param p The coordinates of the circle.
+         */
+        private void toggleCircle(Point2D p) {
+            if (cursorMode.equals("Start")) {
+                if (end != null && p.equals(end)) {
+                    displayStartEqualEndError();
+                    return;
+                }
+
+                if (path != null) {
+                    resetPoint("start");
+                }
+
+                if (grid.getNode(p).getValue()
+                    == LinkedGrid.BLOCKED) {
+                    displayStartEndBlockError();
+                    return;
+                }
+
+                start = p;
+                gridCanvas.setStart(p);
+            } else if (cursorMode.equals("End")) {
+                if (start != null && p.equals(start)) {
+                    displayStartEqualEndError();
+                    return;
+                }
+
+                if (grid.getNode(p).getValue()
+                    == LinkedGrid.BLOCKED) {
+                    displayStartEndBlockError();
+                    return;
+                }
+
+                if (path != null) {
+                    resetPoint("end");
+                }
+
+                end = p;
+                gridCanvas.setEnd(p);
+            }
+
+            if (cursorMode.equals("Block")) {
+                if (path != null) {
+                    resetNavigation();
+                }
+
+                if ((start != null && p.equals(start))
+                    || (end != null && p.equals(end))) {
+                    displayStartEndBlockError();
+                    return;
+                }
+
+                grid.getNode(p).setValue(LinkedGrid.BLOCKED);
+            } else if (cursorMode.equals("None")) {
+                if (start != null && p.equals(start)) {
+                    resetPoint("start");
+                }
+
+                if (end != null && p.equals(end)) {
+                    resetPoint("end");
+                }
+
+                if (path != null) {
+                    resetNavigation();
+                }
+
+                grid.getNode(p).setValue(LinkedGrid.UNFILLED);
+            }
+
+            gridCanvas.repaint();
+        }
+
+        /**
+         * Displays an error when attempting to block a start or end point.
+         */
         private void displayStartEndBlockError() {
             JOptionPane.showMessageDialog(
                 null, UIStrings.blockedStartEndPoint, "Error",
@@ -290,6 +356,9 @@ class DrawFrame extends JFrame {
             );
         }
 
+        /**
+         * Displays an error when trying to overlap the start and end points.
+         */
         private void displayStartEqualEndError() {
             JOptionPane.showMessageDialog(
                 null, UIStrings.sameStartEndPoints, "Error",
@@ -298,9 +367,17 @@ class DrawFrame extends JFrame {
         }
     }
 
+    /**
+     * Listens for the Navigate button to be clicked and Calculates the path.
+     */
     class NavigateClickListener implements ActionListener {
+        /**
+         * Attempts to calculate and display the path, showing corresponding
+         * errors.
+         */
         @Override
         public void actionPerformed(ActionEvent event) {
+            resetCursor();
             // If the path was already determined, don't do anything
             if (path != null) {
                 return;
@@ -315,6 +392,7 @@ class DrawFrame extends JFrame {
             }
 
             // Calculate the path between the start and end points
+            PathFinder pathFinder;
             try {
                 pathFinder = new PathFinder(grid, start, end);
             } catch (UnreachablePointException exception) {
@@ -322,10 +400,11 @@ class DrawFrame extends JFrame {
                     null, UIStrings.unreachableEndpoint, "Error",
                     JOptionPane.ERROR_MESSAGE
                 );
+                grid.partialReset();
                 return;
             }
 
-            gridCanvas.setGrid(grid);
+            System.err.println(grid);
             path = pathFinder.getPath();
             gridCanvas.setPath(path);
             gridCanvas.repaint();

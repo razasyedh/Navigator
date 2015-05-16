@@ -1,3 +1,6 @@
+/**
+ * Strings used by the GUI such as tooltips and errors.
+ */
 public class UIStrings {
     // Tooltips
     public static String startButtonTip = "Add a start point";

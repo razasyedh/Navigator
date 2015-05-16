@@ -1,16 +1,29 @@
-// package com.syedraza.pathfinder;
-
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Vector;
 
+/**
+ * An implementation of the Wavefront algorithm for finding the path between
+ * two points on a grid of linked nodes.
+ */
 public class PathFinder {
+    /** The linked grid. */
     private final LinkedGrid grid;
+    /** The start point. */
     private Point2D start;
+    /** The end point. */
     private Point2D end;
+    /** The calculated path. */
     private final Vector<Point2D> path;
 
-    // Preconditions: No null links, and a non-blocked path
-    // + start and end have to be different
+    /**
+     * Creates a PathFinder object with the given grid and points.
+     * <p>
+     * Preconditions: No null links should be present in the given grid, the
+     * path shouldn't be blocked, and start + end points have to be different.
+     *
+     * @throws IllegalArgumentException If the start and end points are the
+     *         same.
+     */
     public PathFinder(LinkedGrid grid, Point2D start, Point2D end)
             throws UnreachablePointException {
         this.grid = grid;
@@ -26,17 +39,27 @@ public class PathFinder {
         calculatePath();
     }
 
+    /**
+     * Calculates the path from the start point to the end by filling each
+     * node and traversing the result.
+     */
     private void calculatePath() throws UnreachablePointException {
         fillGrid();
         traverseGrid();
     }
 
+    /**
+     * Fills a grid with values corresponding to distance from the end point.
+     * Points are filled in a wave pattern since neighboring nodes will be
+     * equidistant.
+     */
     private void fillGrid() {
         ConcurrentLinkedQueue<Node> fillQueue = new ConcurrentLinkedQueue<>();
         Node startNode = grid.getNode(start);
         Node endNode = grid.getNode(end);
         int fillValue = LinkedGrid.BLOCKED + 1;
 
+        // Fill the nodes breadth-first by continously queueing the neighbors
         fillQueue.add(endNode);
         while (fillQueue.size() != 0) {
             int nodesToFill = fillQueue.size();
@@ -58,6 +81,12 @@ public class PathFinder {
         }
     }
 
+    /**
+     * Adds fillable neighbors to the queue.
+     *
+     * @param queue The queue to add to.
+     * @param node The node who's neighbors are to be added.
+     */
     private void queueNeighbors(ConcurrentLinkedQueue<Node> queue, Node node) {
         Node[] neighbors = node.getNeighbors();
         for (Node neighbor : neighbors) {
@@ -74,11 +103,11 @@ public class PathFinder {
         }
     }
 
+    /**
+     * Naively creates a path from the start point to the end point based on
+     * the node values.
+     */
     private void traverseGrid() throws UnreachablePointException {
-        if (path.size() != 0) {
-            path.clear();
-        }
-
         Point2D coordinates = start;
         while (!coordinates.equals(end)) {
             path.add(coordinates);
@@ -87,7 +116,12 @@ public class PathFinder {
         path.add(end);
     }
 
-    // Find first node with a lower value
+    /**
+     * Gets the next traversable node with a lower value.
+     *
+     * @param coordinates The coordinates representing the current node.
+     * @return The next node.
+     */
     private Point2D getNextNode(Point2D coordinates)
             throws UnreachablePointException {
         Point2D nextNode = new Point2D(coordinates);
@@ -113,7 +147,17 @@ public class PathFinder {
         return nextNode;
     }
 
-    // Precondition: first can't be null
+    /**
+     * Determines if a given node can be traversed from the first.
+     * <p>
+     * Precondition: The first node cannot be null.
+     *
+     * @param first The first node.
+     * @param second The second node.
+     * @return True if the second node is traversable from the first.
+     * @throws NullPointerException If the first Node is null since this
+     *                              indicates a linked grid with a null link.
+     */
     private boolean isNextNode(Node first, Node second) {
         if (first == null) {
             throw new NullPointerException("Linked grid has a null link");
@@ -138,27 +182,22 @@ public class PathFinder {
         return isLess;
     }
 
-    public void setStart(Point2D start) throws UnreachablePointException {
-        this.start = start;
-        traverseGrid();
-    }
-
-    public void setEnd(Point2D end) throws UnreachablePointException {
-        this.start = end;
-        recalculate();
-    }
-
-    // Must be called if (un)blocking any nodes
-    public void recalculate() throws UnreachablePointException {
-        grid.reset();
-        calculatePath();
-    }
-
+    /**
+     * Returns the path that was calculated, including the start and end
+     * points.
+     *
+     * @return The path of 2D points.
+     */
     public Point2D[] getPath() {
         Point2D[] emptyArray = new Point2D[path.size()];
         return path.toArray(emptyArray);
     }
 
+    /**
+     * Returns a string representation of the path that was determined.
+     *
+     * @return The comma-delimited points of the path.
+     */
     @Override
     public String toString() {
         String result = "";

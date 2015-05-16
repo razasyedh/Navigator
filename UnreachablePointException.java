@@ -1,5 +1,7 @@
-// package com.syedraza.pathfinder;
-
+/**
+ * An exception that is thrown when a point is unreachable due to a blocked
+ * path.
+ */
 public class UnreachablePointException extends Exception {
     public UnreachablePointException() {
         super();
