@@ -111,10 +111,22 @@ public class Point2D {
     /**
      * Determines if the point has the same coordinates as another point.
      *
+     * @param obj The object to compare to.
      * @return true if the points have the same x and y coordinates.
      */
-    public boolean equals(Point2D other) {
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Point2D)) {
+            return false;
+        }
+
+        Point2D other = (Point2D) obj;
         return other.getX() == x && other.getY() == y;
+    }
+
+    @Override
+    public int hashCode() {
+        return 2 * x + y;
     }
 
     /**

@@ -115,6 +115,22 @@ public class Node implements Comparable<Node> {
     }
 
     /**
+     * Determines if the node has the same value as another node.
+     *
+     * @param obj The object to compare to.
+     * @return true if the values are equal.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Node)) {
+            return false;
+        }
+
+        Node other = (Node) obj;
+        return other.getValue() == value;
+    }
+
+    /**
      * Compares the value of the node to another node.
      *
      * @return 0 if the nodes have equal values, a positive integer if the
