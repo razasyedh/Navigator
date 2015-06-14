@@ -1,13 +1,7 @@
 /**
  * A linked grid that connects and manages nodes.
  */
-public class LinkedGrid {
-    /** A 2D array representing a grid of nodes. */
-    private final Node[][] grid;
-    /** The number of rows in the grid. */
-    private int rows;
-    /** The number of columns in the grid. */
-    private int cols;
+public class LinkedGrid extends Grid {
     /** The default value of an unfilled node. */
     public static final int UNFILLED = 0;
     /** The value of a node that has been blocked. */
@@ -21,16 +15,7 @@ public class LinkedGrid {
      * @param cols The number of columns.
      */
     public LinkedGrid(int rows, int cols) {
-        this.rows = rows;
-        this.cols = cols;
-
-        grid = new Node[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                grid[i][j] = new Node();
-            }
-        }
-
+        super(rows, cols);
         linkNodes();
     }
 
@@ -84,29 +69,6 @@ public class LinkedGrid {
     }
 
     /**
-     * Gets the node specified by the given coordinates,
-     *
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     * @return The node located at the given point.
-     */
-    public Node getNode(int x, int y) {
-        return grid[x][y];
-    }
-
-    /**
-     * Gets the node specified by the given point,
-     *
-     * @param p The 2D point.
-     * @return The node located at the given point.
-     */
-    public Node getNode(Point2D p) {
-        int x = p.getX();
-        int y = p.getY();
-        return getNode(x, y);
-    }
-
-    /**
      * Returns a string representation of the grid with numbered axes.
      * <p>
      * Note: The axes of the grid are switched, so the x coordinate would
@@ -148,8 +110,8 @@ public class LinkedGrid {
         test.getNode(1, 0).setValue(2);
         System.out.println(test);
 
-        Node north = test.getNode(0, 0).getNorth();
-        Node east = test.getNode(0, 0).getEast();
+        DNode north = test.getNode(0, 0).getNorth();
+        DNode east = test.getNode(0, 0).getEast();
         System.out.println("North of (0,0): " + north);
         System.out.println("East of (0,0): " + east);
     }

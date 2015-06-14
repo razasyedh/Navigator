@@ -18,7 +18,7 @@ class GridCanvas extends JPanel {
     private static final int FONT_OFFSET_Y = 8;
 
     private int x, y;
-    private LinkedGrid grid;
+    private Grid grid;
     private Point2D start, end;
     private Point2D[] path;
     private Ellipse2D[][] circles;
@@ -32,7 +32,7 @@ class GridCanvas extends JPanel {
      * @param start The start point.
      * @param end The end point.
      */
-    public GridCanvas(int x, int y, LinkedGrid grid, Point2D start,
+    public GridCanvas(int x, int y, Grid grid, Point2D start,
                       Point2D end) {
         this.x = x;
         this.y = y;
@@ -181,7 +181,7 @@ class GridCanvas extends JPanel {
      *
      * @param grid The linked grid.
      */
-    public void setGrid(LinkedGrid grid) {
+    public void setGrid(Grid grid) {
         this.grid = grid;
     }
 

@@ -6,9 +6,9 @@ import java.util.Vector;
  * An implementation of the Wavefront algorithm for finding the path between
  * two points on a grid of linked nodes.
  */
-public class PathFinder {
+public class PathFinder implements Navigation {
     /** The linked grid. */
-    private final LinkedGrid grid;
+    private final Grid grid;
     /** The start point. */
     private Point2D start;
     /** The end point. */
@@ -26,7 +26,7 @@ public class PathFinder {
      * @throws IllegalArgumentException If the start and end points are the
      *         same.
      */
-    public PathFinder(LinkedGrid grid, Point2D start, Point2D end)
+    public PathFinder(Grid grid, Point2D start, Point2D end)
             throws UnreachablePointException {
         this.grid = grid;
         this.start = start;
@@ -82,9 +82,9 @@ public class PathFinder {
      * equidistant.
      */
     private void fillGrid() {
-        Queue<Node> fillQueue = new LinkedBlockingQueue<>();
-        Node startNode = grid.getNode(start);
-        Node endNode = grid.getNode(end);
+        Queue<DNode> fillQueue = new LinkedBlockingQueue<>();
+        DNode startNode = grid.getNode(start);
+        DNode endNode = grid.getNode(end);
         int fillValue = LinkedGrid.BLOCKED + 1;
 
         // Fill the nodes breadth-first by continously queueing the neighbors
@@ -93,7 +93,7 @@ public class PathFinder {
             int nodesToFill = fillQueue.size();
 
             while (nodesToFill != 0) {
-                Node fillNode = fillQueue.poll();
+                DNode fillNode = fillQueue.poll();
                 fillNode.setValue(fillValue);
 
                 queueNeighbors(fillQueue, fillNode);
@@ -110,9 +110,9 @@ public class PathFinder {
      * @param queue The queue to add to.
      * @param node The node who's neighbors are to be added.
      */
-    private void queueNeighbors(Queue<Node> queue, Node node) {
-        Node[] neighbors = node.getNeighbors();
-        for (Node neighbor : neighbors) {
+    private void queueNeighbors(Queue<DNode> queue, DNode node) {
+        DNode[] neighbors = node.getNeighbors();
+        for (DNode neighbor : neighbors) {
             int nodeValue;
             if (neighbor != null) {
                 nodeValue = neighbor.getValue();
@@ -149,12 +149,12 @@ public class PathFinder {
     private Point2D getNextNode(Point2D coordinates)
             throws UnreachablePointException {
         Point2D nextNode = new Point2D(coordinates);
-        Node current = grid.getNode(coordinates);
+        DNode current = grid.getNode(coordinates);
 
-        Node north = current.getNorth();
-        Node south = current.getSouth();
-        Node west = current.getWest();
-        Node east = current.getEast();
+        DNode north = current.getNorth();
+        DNode south = current.getSouth();
+        DNode west = current.getWest();
+        DNode east = current.getEast();
         if (isNextNode(current, north)) {
             nextNode.setY(nextNode.getY() + 1);
         } else if (isNextNode(current, south)) {
@@ -178,11 +178,11 @@ public class PathFinder {
      *
      * @param first The first node.
      * @param second The second node.
-     * @return True if the second node is traversable from the first.
-     * @throws NullPointerException If the first Node is null since this
+     * @return true if the second node is traversable from the first.
+     * @throws NullPointerException If the first node is null since this
      *                              indicates a linked grid with a null link.
      */
-    private boolean isNextNode(Node first, Node second) {
+    private boolean isNextNode(DNode first, DNode second) {
         if (first == null) {
             throw new NullPointerException("Linked grid has a null link");
         }
