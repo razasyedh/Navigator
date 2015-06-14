@@ -184,6 +184,26 @@ class DrawFrame extends JFrame {
         cursorMode = null;
     }
 
+    public void navigate(){
+            // Calculate the path between the start and end points
+            PathFinder pathFinder;
+            try {
+                pathFinder = new PathFinder(grid, start, end);
+            } catch (UnreachablePointException exception) {
+                JOptionPane.showMessageDialog(
+                    null, UIStrings.unreachableEndpoint, "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                grid.partialReset();
+                return;
+            }
+
+            System.err.println(grid);
+            path = pathFinder.getPath();
+            gridCanvas.setPath(path);
+            gridCanvas.repaint();
+        }
+
     /**
      * A listener that changes the cursor when a toggle button is clicked.
      */
@@ -287,8 +307,7 @@ class DrawFrame extends JFrame {
                     resetPoint("start");
                 }
 
-                if (grid.getNode(p).getValue()
-                    == LinkedGrid.BLOCKED) {
+                if (grid.getNode(p).getValue() == LinkedGrid.BLOCKED) {
                     displayStartEndBlockError();
                     return;
                 }
@@ -301,8 +320,7 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                if (grid.getNode(p).getValue()
-                    == LinkedGrid.BLOCKED) {
+                if (grid.getNode(p).getValue() == LinkedGrid.BLOCKED) {
                     displayStartEndBlockError();
                     return;
                 }
@@ -391,23 +409,7 @@ class DrawFrame extends JFrame {
                 return;
             }
 
-            // Calculate the path between the start and end points
-            PathFinder pathFinder;
-            try {
-                pathFinder = new PathFinder(grid, start, end);
-            } catch (UnreachablePointException exception) {
-                JOptionPane.showMessageDialog(
-                    null, UIStrings.unreachableEndpoint, "Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                grid.partialReset();
-                return;
-            }
-
-            System.err.println(grid);
-            path = pathFinder.getPath();
-            gridCanvas.setPath(path);
-            gridCanvas.repaint();
+            navigate();
         }
     }
 }

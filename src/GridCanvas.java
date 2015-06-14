@@ -12,7 +12,7 @@ class GridCanvas extends JPanel {
     private static final int PADDING = 5;
     private static final int SPAN = DIAMETER + 2 * PADDING;
     private static final Color COLOR_BLACK = new Color(30, 30, 30);
-    private static final Color COLOR_RED = new Color(245, 60, 20);
+    private static final Color COLOR_RED = new Color(225, 60, 20);
     private static final float FONT_SIZE = 22.0F;
     private static final int FONT_OFFSET_X = 6;
     private static final int FONT_OFFSET_Y = 8;
@@ -77,7 +77,8 @@ class GridCanvas extends JPanel {
                     fillColor = new Color(
                         nodeValue * 2 % 256,
                         (255 - nodeValue) / 3,
-                        nodeValue * 10 % 256);
+                        nodeValue * 10 % 256
+                    );
                 }
                 g2.setPaint(fillColor);
 
