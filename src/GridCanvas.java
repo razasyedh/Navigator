@@ -95,18 +95,18 @@ class GridCanvas extends JPanel {
         g2.setPaint(Color.WHITE);
 
         if (start != null) {
-            drawIndicator(g2, start, "S");
+            drawIndicator(g2, start, 'S');
         }
 
         if (end != null) {
-            drawIndicator(g2, end, "E");
+            drawIndicator(g2, end, 'E');
         }
 
         for (int row = 0; row < x; row++) {
             for (int col = 0; col < y; col++) {
                 int nodeValue = grid.getNode(row, col).getValue();
                 if (nodeValue == LinkedGrid.BLOCKED) {
-                    drawIndicator(g2, new Point2D(col, row), "B");
+                    drawIndicator(g2, new Point2D(col, row), 'B');
                 }
             }
         }
@@ -123,7 +123,7 @@ class GridCanvas extends JPanel {
      * @param point The coordinates of the circle to draw on.
      * @param ch The character to label the circle with.
      */
-    private void drawIndicator(Graphics2D g2, Point2D point, String ch) {
+    private void drawIndicator(Graphics2D g2, Point2D point, char ch) {
         int pointX = point.getX();
         int pointY = point.getY();
         int centerX = (int) circles[pointY][pointX].getCenterX();
@@ -131,7 +131,8 @@ class GridCanvas extends JPanel {
         int circleX = centerX - FONT_OFFSET_X;
         int circleY = centerY + FONT_OFFSET_Y;
 
-        g2.drawString(ch, circleX, circleY);
+        String charstr = String.valueOf(ch);
+        g2.drawString(charstr, circleX, circleY);
     }
 
     /**
