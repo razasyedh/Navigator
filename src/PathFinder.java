@@ -20,7 +20,8 @@ public class PathFinder {
      * Creates a PathFinder object with the given grid and points.
      * <p>
      * Preconditions: No null links should be present in the given grid, the
-     * path shouldn't be blocked, and start + end points have to be different.
+     * path shouldn't be blocked, and start + end points have to be different
+     * and within the grid range.
      *
      * @throws IllegalArgumentException If the start and end points are the
      *         same.
@@ -30,13 +31,8 @@ public class PathFinder {
         this.grid = grid;
         this.start = start;
         this.end = end;
-
-        if (start.equals(end)) {
-            throw new IllegalArgumentException("End point is the same as the"
-                                               + "start point.");
-        }
-
         path = new Vector<>();
+
         calculatePath();
     }
 
@@ -45,8 +41,39 @@ public class PathFinder {
      * node and traversing the result.
      */
     private void calculatePath() throws UnreachablePointException {
+        if (start.equals(end)) {
+            throw new IllegalArgumentException("End point is the same as the"
+                                               + " start point.");
+        }
+
+        if (!pointInRange(start) || !pointInRange(end)) {
+            throw new IllegalArgumentException("Start or end points out of"
+                                               + " outside grid.");
+        }
+
+        path.clear();
         fillGrid();
         traverseGrid();
+    }
+
+    /**
+     * Determines if a 2D point is in the range of the grid.
+     *
+     * @param p The point.
+     * @return true if the coordinates of the point are in the range.
+     */
+    private boolean pointInRange(Point2D p) {
+        boolean isInRange;
+        int x = p.getX();
+        int y = p.getY();
+
+        if (x >= 0 && x < grid.rows && y >= 0 && y < grid.cols) {
+            isInRange = true;
+        } else {
+            isInRange = false;
+        }
+
+        return isInRange;
     }
 
     /**
@@ -166,17 +193,44 @@ public class PathFinder {
 
         boolean isLess;
         int secondVal = second.getValue();
-        int comparison = second.compareTo(first);
         if (secondVal == LinkedGrid.UNFILLED
             || secondVal == LinkedGrid.BLOCKED) {
             isLess = false;
-        } else if (comparison < 0) {
+        } else if (second.compareTo(first) < 0) {
             isLess = true;
         } else { // Higher or equal value
             isLess = false;
         }
 
         return isLess;
+    }
+
+    /**
+     * Updates the start node. This does not require recalculating the path.
+     *
+     * @param start The new starting point.
+     */
+    public void setStart(Point2D start) throws UnreachablePointException {
+        this.start = start;
+        traverseGrid();
+    }
+
+    /**
+     * Updates the end node. This recalculates the path.
+     *
+     * @param end The new ending point.
+     */
+    public void setEnd(Point2D end) throws UnreachablePointException {
+        this.end = end;
+        calculatePath();
+    }
+
+    /**
+     * Updates the path to reflect changes in the grid. Must be called when
+     * (un)blocking any nodes.
+     */
+    public void update() throws UnreachablePointException {
+        calculatePath();
     }
 
     /**
