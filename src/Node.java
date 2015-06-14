@@ -1,6 +1,8 @@
 /**
  * A node that is aware of it's neighbors in 4 directions. The node holds a
  * single value.
+ *
+ * Note: this class has a natural ordering that is inconsistent with equals.
  */
 public class Node implements Comparable<Node> {
     /** The node to the north. */
@@ -112,22 +114,6 @@ public class Node implements Comparable<Node> {
      */
     public int getValue() {
         return value;
-    }
-
-    /**
-     * Determines if the node has the same value as another node.
-     *
-     * @param obj The object to compare to.
-     * @return true if the values are equal.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Node)) {
-            return false;
-        }
-
-        Node other = (Node) obj;
-        return other.getValue() == value;
     }
 
     /**

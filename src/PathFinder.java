@@ -1,4 +1,5 @@
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Queue;
 import java.util.Vector;
 
 /**
@@ -54,7 +55,7 @@ public class PathFinder {
      * equidistant.
      */
     private void fillGrid() {
-        ConcurrentLinkedQueue<Node> fillQueue = new ConcurrentLinkedQueue<>();
+        Queue<Node> fillQueue = new LinkedBlockingQueue<>();
         Node startNode = grid.getNode(start);
         Node endNode = grid.getNode(end);
         int fillValue = LinkedGrid.BLOCKED + 1;
@@ -87,7 +88,7 @@ public class PathFinder {
      * @param queue The queue to add to.
      * @param node The node who's neighbors are to be added.
      */
-    private void queueNeighbors(ConcurrentLinkedQueue<Node> queue, Node node) {
+    private void queueNeighbors(Queue<Node> queue, Node node) {
         Node[] neighbors = node.getNeighbors();
         for (Node neighbor : neighbors) {
             int nodeValue;
@@ -97,7 +98,8 @@ public class PathFinder {
                 continue;
             }
 
-            if (nodeValue == LinkedGrid.UNFILLED) {
+            if (nodeValue == LinkedGrid.UNFILLED &&
+                !(queue.contains(neighbor))) {
                 queue.add(neighbor);
             }
         }
@@ -209,22 +211,33 @@ public class PathFinder {
     }
 
     public static void main(String[] args) {
-        LinkedGrid grid = new LinkedGrid(6, 12);
-        grid.getNode(0, 1).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(1, 1).setValue(LinkedGrid.BLOCKED);
+        LinkedGrid grid = new LinkedGrid(10, 15);
+        grid.getNode(0, 2).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(0, 4).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(1, 4).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(2, 4).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(2, 3).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(2, 2).setValue(LinkedGrid.BLOCKED);
         grid.getNode(2, 1).setValue(LinkedGrid.BLOCKED);
         grid.getNode(3, 1).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(4, 1).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(4, 2).setValue(LinkedGrid.BLOCKED);
         grid.getNode(5, 3).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(4, 3).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(3, 3).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(2, 3).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(1, 3).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(6, 4).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(7, 5).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(8, 6).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(7, 7).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(6, 8).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(5, 9).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(4, 10).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(3, 11).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(2, 12).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(1, 13).setValue(LinkedGrid.BLOCKED);
+
 
         System.out.println(grid);
 
-        Point2D start = new Point2D(4, 8);
-        Point2D end = new Point2D(2, 2);
+        Point2D start = new Point2D(3, 2);
+        Point2D end = new Point2D(0, 3);
         System.out.println("Start: " + start);
         System.out.println("End: " + end);
 
