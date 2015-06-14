@@ -69,11 +69,6 @@ public class PathFinder {
                 Node fillNode = fillQueue.poll();
                 fillNode.setValue(fillValue);
 
-                if (fillNode == startNode) {
-                    fillQueue.clear();
-                    break;
-                }
-
                 queueNeighbors(fillQueue, fillNode);
                 nodesToFill--;
             }
@@ -175,7 +170,7 @@ public class PathFinder {
         if (secondVal == LinkedGrid.UNFILLED
             || secondVal == LinkedGrid.BLOCKED) {
             isLess = false;
-        } else if (comparison == -1) {
+        } else if (comparison < 0) {
             isLess = true;
         } else { // Higher or equal value
             isLess = false;
@@ -211,28 +206,11 @@ public class PathFinder {
     }
 
     public static void main(String[] args) {
-        LinkedGrid grid = new LinkedGrid(10, 15);
+        LinkedGrid grid = new LinkedGrid(5, 8);
         grid.getNode(0, 2).setValue(LinkedGrid.BLOCKED);
         grid.getNode(0, 4).setValue(LinkedGrid.BLOCKED);
         grid.getNode(1, 4).setValue(LinkedGrid.BLOCKED);
         grid.getNode(2, 4).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(2, 3).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(2, 2).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(2, 1).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(3, 1).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(4, 2).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(5, 3).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(6, 4).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(7, 5).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(8, 6).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(7, 7).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(6, 8).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(5, 9).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(4, 10).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(3, 11).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(2, 12).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(1, 13).setValue(LinkedGrid.BLOCKED);
-
 
         System.out.println(grid);
 
