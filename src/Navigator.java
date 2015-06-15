@@ -148,7 +148,6 @@ class DrawFrame extends JFrame {
 
     public void navigate(){
         // Calculate the path between the start and end points
-        System.err.println(grid);
         path = pathFinder.getPath();
         gridCanvas.setPath(path);
         gridCanvas.repaint();

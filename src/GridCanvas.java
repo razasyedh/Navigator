@@ -105,14 +105,29 @@ class GridCanvas extends JPanel {
         for (int row = 0; row < x; row++) {
             for (int col = 0; col < y; col++) {
                 int nodeValue = grid.getNode(row, col).getValue();
+                Point2D p = new Point2D(col, row);
+
                 if (nodeValue == LinkedGrid.BLOCKED) {
-                    drawIndicator(g2, new Point2D(col, row), 'B');
+                    drawIndicator(g2, p, "B");
+                } else if (Debug.ON && Debug.SHOW_VALUES
+                           && !p.equals(start) && !p.equals(end)) {
+                    // Smaller font needed because values can be 2 digits
+                    g2.setFont(defaultFont);
+                    drawIndicator(g2, p, Integer.toString(nodeValue));
+                    g2.setFont(scaledFont);
                 }
             }
         }
 
         if (path != null) {
             drawPath(g2);
+        }
+
+        // Print path distance in lower left corner
+        if (Debug.ON) {
+            g2.setColor(Color.RED);
+            String dist = Integer.toString(path.length - 1);
+            g2.drawString(dist, 1.0F, getHeight());
         }
     }
 
