@@ -62,7 +62,7 @@ class DrawFrame extends JFrame {
      */
     private void applySettings() {
         setSize(595, 500);
-        setLocation(100, 100);
+        setLocationRelativeTo(null);
         setTitle("Navigator");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -80,14 +80,17 @@ class DrawFrame extends JFrame {
 
         JPanel toggles = new JPanel();
         JButton startButton = new JButton("Start");
+        startButton.setMnemonic(KeyEvent.VK_S);
         startButton.setToolTipText(UIStrings.startButtonTip);
         toggles.add(startButton);
         toggleButtons.add(startButton);
         JButton endButton = new JButton("End");
+        endButton.setMnemonic(KeyEvent.VK_E);
         endButton.setToolTipText(UIStrings.endButtonTip);
         toggles.add(endButton);
         toggleButtons.add(endButton);
         JButton blockButton = new JButton("Block");
+        blockButton.setMnemonic(KeyEvent.VK_B);
         blockButton.setToolTipText(UIStrings.blockButtonTip);
         toggles.add(blockButton);
         toggleButtons.add(blockButton);
@@ -97,6 +100,7 @@ class DrawFrame extends JFrame {
 
         JPanel actions = new JPanel();
         resetButton = new JButton("Clear");
+        resetButton.setMnemonic(KeyEvent.VK_C);
         resetButton.setToolTipText(UIStrings.resetButtonTip);
 
         actions.add(resetButton);
@@ -147,7 +151,7 @@ class DrawFrame extends JFrame {
     }
 
     public void navigate(){
-        // Calculate the path between the start and end points
+        // Show the path between the start and end points
         path = pathFinder.getPath();
         gridCanvas.setPath(path);
         gridCanvas.repaint();
@@ -257,7 +261,6 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                resetPath();
                 start = p;
                 gridCanvas.setStart(p);
                 pathFinder.setStart(p);
@@ -272,14 +275,12 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                resetPath();
                 end = p;
                 gridCanvas.setEnd(p);
                 pathFinder.setEnd(p);
             }
 
             if (cursorMode.equals("Block")) {
-                resetPath();
 
                 if ((start != null && p.equals(start))
                     || (end != null && p.equals(end))) {
@@ -298,6 +299,7 @@ class DrawFrame extends JFrame {
                 pathFinder.update();
             }
 
+            resetPath();
             navigate();
         }
 
