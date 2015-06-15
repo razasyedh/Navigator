@@ -91,10 +91,6 @@ class DrawFrame extends JFrame {
         blockButton.setToolTipText(UIStrings.blockButtonTip);
         toggles.add(blockButton);
         toggleButtons.add(blockButton);
-        JButton noneButton = new JButton("None");
-        noneButton.setToolTipText(UIStrings.noneButtonTip);
-        toggles.add(noneButton);
-        toggleButtons.add(noneButton);
 
         toggles.setBorder(new TitledBorder("Toggles"));
         options.add(toggles);
@@ -292,11 +288,14 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                grid.getNode(p).setValue(LinkedGrid.BLOCKED);
-                pathFinder.update();
-            } else if (cursorMode.equals("None")) {
-                resetPath();
-                grid.getNode(p).setValue(LinkedGrid.UNFILLED);
+                Node n = grid.getNode(p);
+                // Toggle whether the node is blocked
+                if (n.getValue() == LinkedGrid.BLOCKED) {
+                    n.setValue(LinkedGrid.UNFILLED);
+                } else {
+                    n.setValue(LinkedGrid.BLOCKED);
+                }
+
                 pathFinder.update();
             }
 
