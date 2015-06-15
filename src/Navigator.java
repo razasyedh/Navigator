@@ -257,8 +257,8 @@ class DrawFrame extends JFrame {
                 }
 
                 if (grid.getNode(p).getValue() == PathFinder.BLOCKED) {
-                    displayStartEndBlockError();
-                    return;
+                    grid.getNode(p).setValue(PathFinder.UNFILLED);
+                    pathFinder.update();
                 }
 
                 start = p;
@@ -267,11 +267,6 @@ class DrawFrame extends JFrame {
             } else if (cursorMode.equals("End")) {
                 if (start != null && p.equals(start)) {
                     displayStartEqualEndError();
-                    return;
-                }
-
-                if (grid.getNode(p).getValue() == PathFinder.BLOCKED) {
-                    displayStartEndBlockError();
                     return;
                 }
 
