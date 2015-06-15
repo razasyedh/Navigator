@@ -8,7 +8,7 @@ import java.util.Vector;
  */
 public class PathFinder implements Navigation {
     /** The linked grid. */
-    private final Grid grid;
+    private final LinkedGrid grid;
     /** The start point. */
     private Point2D start;
     /** The end point. */
@@ -51,7 +51,6 @@ public class PathFinder implements Navigation {
                                                + " outside grid.");
         }
 
-        path.clear();
         fillGrid();
         traverseGrid();
     }
@@ -132,6 +131,7 @@ public class PathFinder implements Navigation {
      * the node values.
      */
     private void traverseGrid() throws UnreachablePointException {
+        path.clear();
         Point2D coordinates = start;
         while (!coordinates.equals(end)) {
             path.add(coordinates);
@@ -222,6 +222,7 @@ public class PathFinder implements Navigation {
      */
     public void setEnd(Point2D end) throws UnreachablePointException {
         this.end = end;
+        grid.partialReset();
         calculatePath();
     }
 
@@ -229,7 +230,8 @@ public class PathFinder implements Navigation {
      * Updates the path to reflect changes in the grid. Must be called when
      * (un)blocking any nodes.
      */
-    public void update() throws UnreachablePointException {
+    public void update() {
+        grid.partialReset();
         calculatePath();
     }
 
