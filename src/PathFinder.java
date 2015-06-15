@@ -15,6 +15,10 @@ public class PathFinder implements Navigation {
     private Point2D end;
     /** The calculated path. */
     private final Vector<Point2D> path;
+    /** The default value of an unfilled node. */
+    public static final int UNFILLED = 0;
+    /** The value of a node that has been blocked. */
+    public static final int BLOCKED = 1;
 
     /**
      * Creates a PathFinder object with the given grid and points.
@@ -46,8 +50,8 @@ public class PathFinder implements Navigation {
         }
 
         if (!pointInRange(start) || !pointInRange(end)) {
-            throw new IllegalArgumentException("Start or end points out of"
-                                               + " outside grid.");
+            throw new IllegalArgumentException("Start or end points outside of"
+                                               + " grid.");
         }
 
         fillGrid();
@@ -83,7 +87,7 @@ public class PathFinder implements Navigation {
         Queue<DNode> fillQueue = new LinkedBlockingQueue<>();
         DNode startNode = grid.getNode(start);
         DNode endNode = grid.getNode(end);
-        int fillValue = LinkedGrid.BLOCKED + 1;
+        int fillValue = BLOCKED + 1;
 
         // Fill the nodes breadth-first by continously queueing the neighbors
         fillQueue.add(endNode);
@@ -118,8 +122,7 @@ public class PathFinder implements Navigation {
                 continue;
             }
 
-            if (nodeValue == LinkedGrid.UNFILLED &&
-                !(queue.contains(neighbor))) {
+            if (nodeValue == UNFILLED && !(queue.contains(neighbor))) {
                 queue.add(neighbor);
             }
         }
@@ -194,8 +197,7 @@ public class PathFinder implements Navigation {
 
         boolean isLess;
         int secondVal = second.getValue();
-        if (secondVal == LinkedGrid.UNFILLED
-            || secondVal == LinkedGrid.BLOCKED) {
+        if (secondVal == UNFILLED || secondVal == BLOCKED) {
             isLess = false;
         } else if (second.compareTo(first) < 0) {
             isLess = true;
@@ -273,10 +275,10 @@ public class PathFinder implements Navigation {
 
     public static void main(String[] args) {
         LinkedGrid grid = new LinkedGrid(5, 8);
-        grid.getNode(0, 2).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(0, 4).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(1, 4).setValue(LinkedGrid.BLOCKED);
-        grid.getNode(2, 4).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(0, 2).setValue(BLOCKED);
+        grid.getNode(0, 4).setValue(BLOCKED);
+        grid.getNode(1, 4).setValue(BLOCKED);
+        grid.getNode(2, 4).setValue(BLOCKED);
 
         System.out.println(grid);
 

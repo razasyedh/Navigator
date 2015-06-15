@@ -54,7 +54,7 @@ class DrawFrame extends JFrame {
     private void setDefaults() {
         start = new Point2D(0, 0);
         end = new Point2D(0, 3);
-        grid.getNode(0, 2).setValue(LinkedGrid.BLOCKED);
+        grid.getNode(0, 2).setValue(PathFinder.BLOCKED);
     }
 
     /**
@@ -256,7 +256,7 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                if (grid.getNode(p).getValue() == LinkedGrid.BLOCKED) {
+                if (grid.getNode(p).getValue() == PathFinder.BLOCKED) {
                     displayStartEndBlockError();
                     return;
                 }
@@ -270,7 +270,7 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                if (grid.getNode(p).getValue() == LinkedGrid.BLOCKED) {
+                if (grid.getNode(p).getValue() == PathFinder.BLOCKED) {
                     displayStartEndBlockError();
                     return;
                 }
@@ -290,10 +290,10 @@ class DrawFrame extends JFrame {
 
                 Node n = grid.getNode(p);
                 // Toggle whether the node is blocked
-                if (n.getValue() == LinkedGrid.BLOCKED) {
-                    n.setValue(LinkedGrid.UNFILLED);
+                if (n.getValue() == PathFinder.BLOCKED) {
+                    n.setValue(PathFinder.UNFILLED);
                 } else {
-                    n.setValue(LinkedGrid.BLOCKED);
+                    n.setValue(PathFinder.BLOCKED);
                 }
 
                 pathFinder.update();

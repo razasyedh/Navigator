@@ -2,11 +2,6 @@
  * A linked grid that connects and manages nodes.
  */
 public class LinkedGrid extends Grid {
-    /** The default value of an unfilled node. */
-    public static final int UNFILLED = 0;
-    /** The value of a node that has been blocked. */
-    public static final int BLOCKED = 1;
-
     /**
      * Creates a linked grid of the specified size, linking each node to each
      * other.
@@ -50,8 +45,8 @@ public class LinkedGrid extends Grid {
     public void partialReset() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (grid[i][j].getValue() != BLOCKED) {
-                    grid[i][j].setValue(UNFILLED);
+                if (grid[i][j].getValue() != PathFinder.BLOCKED) {
+                    grid[i][j].setValue(PathFinder.UNFILLED);
                 }
             }
         }
@@ -63,7 +58,7 @@ public class LinkedGrid extends Grid {
     public void fullReset() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                grid[i][j].setValue(UNFILLED);
+                grid[i][j].setValue(PathFinder.UNFILLED);
             }
         }
     }

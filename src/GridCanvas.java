@@ -67,9 +67,9 @@ class GridCanvas extends JPanel {
                 // Determine circle color
                 Color fillColor;
                 int nodeValue = grid.getNode(row, col).getValue();
-                if (nodeValue == LinkedGrid.UNFILLED) {
+                if (nodeValue == PathFinder.UNFILLED) {
                     fillColor = COLOR_BLACK;
-                } else if (nodeValue == LinkedGrid.BLOCKED) {
+                } else if (nodeValue == PathFinder.BLOCKED) {
                     fillColor = COLOR_RED;
                 } else {
                     // Color the circle based on it's fill value, which
@@ -107,7 +107,7 @@ class GridCanvas extends JPanel {
                 int nodeValue = grid.getNode(row, col).getValue();
                 Point2D p = new Point2D(col, row);
 
-                if (nodeValue == LinkedGrid.BLOCKED) {
+                if (nodeValue == PathFinder.BLOCKED) {
                     drawIndicator(g2, p, "B");
                 } else if (Debug.ON && Debug.SHOW_VALUES
                            && !p.equals(start) && !p.equals(end)) {
