@@ -28,6 +28,7 @@ class DrawFrame extends JFrame {
     private JButton navigateButton, resetButton;
 
     private LinkedGrid grid;
+    private PathFinder pathFinder;
     private Point2D start, end;
     private Point2D[] path;
 
@@ -42,6 +43,9 @@ class DrawFrame extends JFrame {
         applySettings();
         addComponents();
         setListeners();
+
+        pathFinder = new PathFinder(grid, start, end);
+        navigate();
     }
 
     /**
@@ -133,35 +137,11 @@ class DrawFrame extends JFrame {
     }
 
     /**
-     * Resets a point specified by name.
-     */
-    private void resetPoint(String name) {
-        if (name.equals("start")) {
-            start = null;
-            gridCanvas.setStart(null);
-        } else {
-            end = null;
-            gridCanvas.setEnd(null);
-        }
-
-        resetNavigation();
-    }
-
-    /**
      * Resets the path.
      */
     public void resetPath() {
         path = null;
         gridCanvas.setPath(null);
-    }
-
-    /**
-     * Resets everything that has to do with navigation which is the path and
-     * the grid.
-     */
-    private void resetNavigation() {
-        resetPath();
-        grid.partialReset();
     }
 
     /**
@@ -185,24 +165,12 @@ class DrawFrame extends JFrame {
     }
 
     public void navigate(){
-            // Calculate the path between the start and end points
-            PathFinder pathFinder;
-            try {
-                pathFinder = new PathFinder(grid, start, end);
-            } catch (UnreachablePointException exception) {
-                JOptionPane.showMessageDialog(
-                    null, UIStrings.unreachableEndpoint, "Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                grid.partialReset();
-                return;
-            }
-
-            System.err.println(grid);
-            path = pathFinder.getPath();
-            gridCanvas.setPath(path);
-            gridCanvas.repaint();
-        }
+        // Calculate the path between the start and end points
+        System.err.println(grid);
+        path = pathFinder.getPath();
+        gridCanvas.setPath(path);
+        gridCanvas.repaint();
+    }
 
     /**
      * A listener that changes the cursor when a toggle button is clicked.
@@ -303,17 +271,15 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                if (path != null) {
-                    resetPoint("start");
-                }
-
                 if (grid.getNode(p).getValue() == LinkedGrid.BLOCKED) {
                     displayStartEndBlockError();
                     return;
                 }
 
+                resetPath();
                 start = p;
                 gridCanvas.setStart(p);
+                pathFinder.setStart(p);
             } else if (cursorMode.equals("End")) {
                 if (start != null && p.equals(start)) {
                     displayStartEqualEndError();
@@ -325,18 +291,14 @@ class DrawFrame extends JFrame {
                     return;
                 }
 
-                if (path != null) {
-                    resetPoint("end");
-                }
-
+                resetPath();
                 end = p;
                 gridCanvas.setEnd(p);
+                pathFinder.setEnd(p);
             }
 
             if (cursorMode.equals("Block")) {
-                if (path != null) {
-                    resetNavigation();
-                }
+                resetPath();
 
                 if ((start != null && p.equals(start))
                     || (end != null && p.equals(end))) {
@@ -345,23 +307,14 @@ class DrawFrame extends JFrame {
                 }
 
                 grid.getNode(p).setValue(LinkedGrid.BLOCKED);
+                pathFinder.update();
             } else if (cursorMode.equals("None")) {
-                if (start != null && p.equals(start)) {
-                    resetPoint("start");
-                }
-
-                if (end != null && p.equals(end)) {
-                    resetPoint("end");
-                }
-
-                if (path != null) {
-                    resetNavigation();
-                }
-
+                resetPath();
                 grid.getNode(p).setValue(LinkedGrid.UNFILLED);
+                pathFinder.update();
             }
 
-            gridCanvas.repaint();
+            navigate();
         }
 
         /**
