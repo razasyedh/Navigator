@@ -26,8 +26,7 @@ public class PathFinder implements Navigation {
      * @throws IllegalArgumentException If the start and end points are the
      *         same.
      */
-    public PathFinder(Grid grid, Point2D start, Point2D end)
-            throws UnreachablePointException {
+    public PathFinder(LinkedGrid grid, Point2D start, Point2D end) {
         this.grid = grid;
         this.start = start;
         this.end = end;
@@ -40,7 +39,7 @@ public class PathFinder implements Navigation {
      * Calculates the path from the start point to the end by filling each
      * node and traversing the result.
      */
-    private void calculatePath() throws UnreachablePointException {
+    private void calculatePath() {
         if (start.equals(end)) {
             throw new IllegalArgumentException("End point is the same as the"
                                                + " start point.");
@@ -130,12 +129,16 @@ public class PathFinder implements Navigation {
      * Naively creates a path from the start point to the end point based on
      * the node values.
      */
-    private void traverseGrid() throws UnreachablePointException {
+    private void traverseGrid() {
         path.clear();
         Point2D coordinates = start;
         while (!coordinates.equals(end)) {
             path.add(coordinates);
             coordinates = getNextNode(coordinates);
+
+            if (coordinates == null) {
+                return;
+            }
         }
         path.add(end);
     }
@@ -144,10 +147,9 @@ public class PathFinder implements Navigation {
      * Gets the next traversable node with a lower value.
      *
      * @param coordinates The coordinates representing the current node.
-     * @return The next node.
+     * @return The next node or {@code null} if none could be found.
      */
-    private Point2D getNextNode(Point2D coordinates)
-            throws UnreachablePointException {
+    private Point2D getNextNode(Point2D coordinates) {
         Point2D nextNode = new Point2D(coordinates);
         DNode current = grid.getNode(coordinates);
 
@@ -164,8 +166,7 @@ public class PathFinder implements Navigation {
         } else if (isNextNode(current, east)) {
             nextNode.setX(nextNode.getX() + 1);
         } else {
-            throw new UnreachablePointException("Next node unreachable from: "
-                                                + nextNode);
+            return null;
         }
 
         return nextNode;
@@ -210,7 +211,7 @@ public class PathFinder implements Navigation {
      *
      * @param start The new starting point.
      */
-    public void setStart(Point2D start) throws UnreachablePointException {
+    public void setStart(Point2D start) {
         this.start = start;
         traverseGrid();
     }
@@ -220,7 +221,7 @@ public class PathFinder implements Navigation {
      *
      * @param end The new ending point.
      */
-    public void setEnd(Point2D end) throws UnreachablePointException {
+    public void setEnd(Point2D end) {
         this.end = end;
         grid.partialReset();
         calculatePath();
@@ -236,8 +237,9 @@ public class PathFinder implements Navigation {
     }
 
     /**
-     * Returns the path that was calculated, including the start and end
-     * points.
+     * Returns the path that was calculated. If a suitable path couldn't be
+     * found, only the start point will be included, or else the full path will
+     * include the end.
      *
      * @return The path of 2D points.
      */
@@ -276,14 +278,7 @@ public class PathFinder implements Navigation {
         System.out.println("End: " + end);
 
         System.out.println("Calculating...\n");
-        PathFinder wave = null;
-
-        try {
-            wave = new PathFinder(grid, start, end);
-        } catch (UnreachablePointException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        PathFinder wave = new PathFinder(grid, start, end);
 
         System.out.println(grid);
         System.out.println(wave);
