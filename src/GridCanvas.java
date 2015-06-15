@@ -95,11 +95,11 @@ class GridCanvas extends JPanel {
         g2.setPaint(Color.WHITE);
 
         if (start != null) {
-            drawIndicator(g2, start, 'S');
+            drawIndicator(g2, start, "S");
         }
 
         if (end != null) {
-            drawIndicator(g2, end, 'E');
+            drawIndicator(g2, end, "E");
         }
 
         for (int row = 0; row < x; row++) {
@@ -123,7 +123,7 @@ class GridCanvas extends JPanel {
      * @param point The coordinates of the circle to draw on.
      * @param ch The character to label the circle with.
      */
-    private void drawIndicator(Graphics2D g2, Point2D point, char ch) {
+    private void drawIndicator(Graphics2D g2, Point2D point, String ch) {
         int pointX = point.getX();
         int pointY = point.getY();
         int centerX = (int) circles[pointY][pointX].getCenterX();
@@ -131,8 +131,7 @@ class GridCanvas extends JPanel {
         int circleX = centerX - FONT_OFFSET_X;
         int circleY = centerY + FONT_OFFSET_Y;
 
-        String charstr = String.valueOf(ch);
-        g2.drawString(charstr, circleX, circleY);
+        g2.drawString(ch, circleX, circleY);
     }
 
     /**
