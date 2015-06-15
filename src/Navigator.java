@@ -125,8 +125,9 @@ class DrawFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 resetCursor();
-                fullReset();
-                gridCanvas.repaint();
+                resetPath();
+                pathFinder.reset();
+                navigate();
             }
         });
     }
@@ -137,16 +138,6 @@ class DrawFrame extends JFrame {
     public void resetPath() {
         path = null;
         gridCanvas.setPath(null);
-    }
-
-    /**
-     * Resets everything including the grid, points, and the path.
-     */
-    private void fullReset() {
-        resetPath();
-        resetPoint("start");
-        resetPoint("end");
-        grid.fullReset();
     }
 
     /**

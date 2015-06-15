@@ -237,6 +237,14 @@ public class PathFinder implements Navigation {
     }
 
     /**
+     * Resets all blocked nodes and recalculates the path.
+     */
+    public void reset() {
+        grid.fullReset();
+        calculatePath();
+    }
+
+    /**
      * Returns the path that was calculated. If a suitable path couldn't be
      * found, only the start point will be included, or else the full path will
      * include the end.
