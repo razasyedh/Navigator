@@ -25,7 +25,7 @@ class DrawFrame extends JFrame {
     private String cursorMode;
     private ArrayList<JButton> toggleButtons;
     private GridCanvas gridCanvas;
-    private JButton navigateButton, resetButton;
+    private JButton resetButton;
 
     private LinkedGrid grid;
     private PathFinder pathFinder;
@@ -100,10 +100,6 @@ class DrawFrame extends JFrame {
         options.add(toggles);
 
         JPanel actions = new JPanel();
-        navigateButton = new JButton("Navigate");
-        navigateButton.setToolTipText(UIStrings.navigateButtonTip);
-        actions.add(navigateButton);
-        getRootPane().setDefaultButton(navigateButton);
         resetButton = new JButton("Clear");
         resetButton.setToolTipText(UIStrings.resetButtonTip);
 
@@ -124,7 +120,6 @@ class DrawFrame extends JFrame {
         }
 
         gridCanvas.addMouseListener(new ToggleClickListener());
-        navigateButton.addActionListener(new NavigateClickListener());
 
         resetButton.addActionListener(new ActionListener() {
             @Override
@@ -335,34 +330,6 @@ class DrawFrame extends JFrame {
                 null, UIStrings.sameStartEndPoints, "Error",
                 JOptionPane.ERROR_MESSAGE
             );
-        }
-    }
-
-    /**
-     * Listens for the Navigate button to be clicked and Calculates the path.
-     */
-    class NavigateClickListener implements ActionListener {
-        /**
-         * Attempts to calculate and display the path, showing corresponding
-         * errors.
-         */
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            resetCursor();
-            // If the path was already determined, don't do anything
-            if (path != null) {
-                return;
-            }
-
-            if (start == null || end == null) {
-                JOptionPane.showMessageDialog(
-                    null, UIStrings.missingStartEndPoint, "Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            }
-
-            navigate();
         }
     }
 }
