@@ -8,12 +8,12 @@ import java.awt.Graphics;
  * for the different types of nodes.
  */
 class GridCanvas extends JPanel {
-    private static final int DIAMETER = 29;
-    private static final int PADDING = 5;
-    private static final int SPAN = DIAMETER + 2 * PADDING;
-    private static final float FONT_SIZE = 22.0F;
-    private static final int FONT_OFFSET_X = 6;
-    private static final int FONT_OFFSET_Y = 8;
+    private final int DIAMETER = 29;
+    private final int PADDING = 5;
+    private final int SPAN = DIAMETER + 2 * PADDING;
+    private final float FONT_SIZE = 22.0F;
+    private final int FONT_OFFSET_X = 6;
+    private final int FONT_OFFSET_Y = 8;
 
     private int x, y;
     private Grid grid;
