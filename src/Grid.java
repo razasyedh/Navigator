@@ -49,4 +49,23 @@ public class Grid {
         int y = p.getY();
         return getNode(x, y);
     }
+
+    /**
+     * Returns the value of the largest node.
+     *
+     * @return the value.
+     */
+    public int getMax() {
+        int max = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                int val = grid[i][j].getValue();
+                if (val > max) {
+                    max = val;
+                }
+            }
+        }
+
+        return max;
+    }
 }

@@ -11,8 +11,6 @@ class GridCanvas extends JPanel {
     private static final int DIAMETER = 29;
     private static final int PADDING = 5;
     private static final int SPAN = DIAMETER + 2 * PADDING;
-    private static final Color COLOR_BLACK = new Color(30, 30, 30);
-    private static final Color COLOR_RED = new Color(225, 60, 20);
     private static final float FONT_SIZE = 22.0F;
     private static final int FONT_OFFSET_X = 6;
     private static final int FONT_OFFSET_Y = 8;
@@ -61,6 +59,11 @@ class GridCanvas extends JPanel {
         Font scaledFont = defaultFont.deriveFont(FONT_SIZE);
         g2.setFont(scaledFont);
 
+        // Calculate a color interval that's evenly distributed among values
+        int minValue = PathFinder.BLOCKED + 1;
+        int maxValue = grid.getMax();
+        double interval = 255.0 / (maxValue - minValue);
+
         // Draw nodes
         for (int row = 0; row < x; row++) {
             for (int col = 0; col < y; col++) {
@@ -68,17 +71,17 @@ class GridCanvas extends JPanel {
                 Color fillColor;
                 int nodeValue = grid.getNode(row, col).getValue();
                 if (nodeValue == PathFinder.UNFILLED) {
-                    fillColor = COLOR_BLACK;
+                    fillColor = Color.BLACK;
                 } else if (nodeValue == PathFinder.BLOCKED) {
-                    fillColor = COLOR_RED;
+                    fillColor = Color.RED;
                 } else {
                     // Color the circle based on it's fill value, which
                     // corresponds to it's distance from the start point
-                    fillColor = new Color(
-                        nodeValue * 2 % 256,
-                        (255 - nodeValue) / 3,
-                        nodeValue * 10 % 256
-                    );
+                    int nodeColor = (int) ((nodeValue - minValue) * interval);
+                    int red = nodeColor / 3;
+                    int green = 255 - nodeColor;
+                    int blue = nodeColor;
+                    fillColor = new Color(red, green, blue);
                 }
                 g2.setPaint(fillColor);
 
