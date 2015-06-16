@@ -4,9 +4,9 @@ import java.lang.Math;
  * A 2D coordinate pair representing a point on a grid.
  * <p>
  * Although AWT has a nearly identical class, it is reimplemented here
- * because that implementation returns <code>int</code> coordinates as
- * <code>double</code>s, which is undesirable since these coordinates are
- * used as array indices.
+ * because that implementation returns {@code int} coordinates as
+ * {@code double}s, which is undesirable since these coordinates are used as
+ * array indices.
  */
 public class Point2D {
     /** The X coordinate */

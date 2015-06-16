@@ -28,7 +28,8 @@ public class PathFinder implements Navigation {
      * and within the grid range.
      *
      * @throws IllegalArgumentException If the start and end points are the
-     *         same.
+     *         same or out of range.
+     * @throws NullPointerException If the grid contains null links.
      */
     public PathFinder(LinkedGrid grid, Point2D start, Point2D end) {
         this.grid = grid;
@@ -177,18 +178,14 @@ public class PathFinder implements Navigation {
 
     /**
      * Determines if a given node can be traversed from the first.
-     * <p>
-     * Precondition: The first node cannot be null.
      *
      * @param first The first node.
      * @param second The second node.
      * @return true if the second node is traversable from the first.
-     * @throws NullPointerException If the first node is null since this
-     *                              indicates a linked grid with a null link.
      */
     private boolean isNextNode(DNode first, DNode second) {
         if (first == null) {
-            throw new NullPointerException("Linked grid has a null link");
+            throw new NullPointerException("Linked grid has a null link.");
         }
 
         if (second == null) {
@@ -212,6 +209,8 @@ public class PathFinder implements Navigation {
      * Updates the start node. This does not require recalculating the path.
      *
      * @param start The new starting point.
+     * @throws IllegalArgumentException If the start point is the same as the
+     *         end or out of range.
      */
     public void setStart(Point2D start) {
         this.start = start;
@@ -222,6 +221,8 @@ public class PathFinder implements Navigation {
      * Updates the end node. This recalculates the path.
      *
      * @param end The new ending point.
+     * @throws IllegalArgumentException If the end point is the same as the
+     *         start or out of range.
      */
     public void setEnd(Point2D end) {
         this.end = end;
@@ -247,9 +248,8 @@ public class PathFinder implements Navigation {
     }
 
     /**
-     * Returns the path that was calculated. If a suitable path couldn't be
-     * found, only the start point will be included, or else the full path will
-     * include the end.
+     * Returns the path that was calculated from start to end. If a suitable
+     * path couldn't be found, only the start point will be included.
      *
      * @return The path of 2D points.
      */

@@ -205,7 +205,7 @@ class GridCanvas extends JPanel {
     /**
      * Sets the path to draw.
      *
-     * @param The path of 2D points.
+     * @param path The path of 2D points.
      */
     public void setPath(Point2D[] path) {
         this.path = path;

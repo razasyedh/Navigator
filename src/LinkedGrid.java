@@ -1,5 +1,9 @@
 /**
  * A linked grid that connects and manages nodes.
+ *
+ * Note: Nodes will be filled in and managed by a {@link PathFinder}. You
+ * should only manually modify the values of the nodes in order to
+ * (un)block them, which will require updating the PathFinder.
  */
 public class LinkedGrid extends Grid {
     /**
