@@ -162,13 +162,13 @@ public class PathFinder implements Navigation {
         DNode west = current.getWest();
         DNode east = current.getEast();
         if (isNextNode(current, north)) {
-            nextNode.setY(nextNode.getY() + 1);
+            nextNode.translate(0, 1);
         } else if (isNextNode(current, south)) {
-            nextNode.setY(nextNode.getY() - 1);
+            nextNode.translate(0, -1);
         } else if (isNextNode(current, west)) {
-            nextNode.setX(nextNode.getX() - 1);
+            nextNode.translate(-1, 0);
         } else if (isNextNode(current, east)) {
-            nextNode.setX(nextNode.getX() + 1);
+            nextNode.translate(1, 0);
         } else {
             return null;
         }

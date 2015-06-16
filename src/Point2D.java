@@ -109,6 +109,17 @@ public class Point2D {
     }
 
     /**
+     * Shifts the x and y coordinates by adding the given differences.
+     *
+     * @param dx How many points to move the x coordinate by.
+     * @param dy How many points to move the y coordinate by.
+     */
+    public void translate(int dx, int dy) {
+        x += dx;
+        y += dy;
+    }
+
+    /**
      * Determines if the point has the same coordinates as another point.
      *
      * @param obj The object to compare to.
