@@ -66,17 +66,10 @@ public class PathFinder implements Navigation {
      * @return true if the coordinates of the point are in the range.
      */
     private boolean pointInRange(Point2D p) {
-        boolean isInRange;
         int x = p.getX();
         int y = p.getY();
 
-        if (x >= 0 && x < grid.rows && y >= 0 && y < grid.cols) {
-            isInRange = true;
-        } else {
-            isInRange = false;
-        }
-
-        return isInRange;
+        return x >= 0 && x < grid.rows && y >= 0 && y < grid.cols;
     }
 
     /**
