@@ -79,17 +79,17 @@ class DrawFrame extends JFrame {
         JPanel options = new JPanel();
 
         JPanel toggles = new JPanel();
-        JButton startButton = new JButton("Start");
+        JButton startButton = new JButton(UIStrings.startButtonLabel);
         startButton.setMnemonic(KeyEvent.VK_S);
         startButton.setToolTipText(UIStrings.startButtonTip);
         toggles.add(startButton);
         toggleButtons.add(startButton);
-        JButton endButton = new JButton("End");
+        JButton endButton = new JButton(UIStrings.endButtonLabel);
         endButton.setMnemonic(KeyEvent.VK_E);
         endButton.setToolTipText(UIStrings.endButtonTip);
         toggles.add(endButton);
         toggleButtons.add(endButton);
-        JButton blockButton = new JButton("Block");
+        JButton blockButton = new JButton(UIStrings.blockButtonLabel);
         blockButton.setMnemonic(KeyEvent.VK_B);
         blockButton.setToolTipText(UIStrings.blockButtonTip);
         toggles.add(blockButton);
@@ -99,7 +99,7 @@ class DrawFrame extends JFrame {
         options.add(toggles);
 
         JPanel actions = new JPanel();
-        resetButton = new JButton("Clear");
+        resetButton = new JButton(UIStrings.resetButtonLabel);
         resetButton.setMnemonic(KeyEvent.VK_C);
         resetButton.setToolTipText(UIStrings.resetButtonTip);
 
