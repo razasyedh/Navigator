@@ -251,7 +251,7 @@ class DrawFrame extends JFrame {
          */
         private void toggleCircle(Point2D p) {
             if (cursorMode.equals("Start")) {
-                if (end != null && p.equals(end)) {
+                if (p.equals(end)) {
                     displayStartEqualEndError();
                     return;
                 }
@@ -265,7 +265,7 @@ class DrawFrame extends JFrame {
                 gridCanvas.setStart(p);
                 pathFinder.setStart(p);
             } else if (cursorMode.equals("End")) {
-                if (start != null && p.equals(start)) {
+                if (p.equals(start)) {
                     displayStartEqualEndError();
                     return;
                 }
@@ -276,10 +276,11 @@ class DrawFrame extends JFrame {
             }
 
             if (cursorMode.equals("Block")) {
-
-                if ((start != null && p.equals(start))
-                    || (end != null && p.equals(end))) {
-                    displayStartEndBlockError();
+                if (p.equals(start) || p.equals(end)) {
+                    JOptionPane.showMessageDialog(
+                        null, UIStrings.blockedStartEndPoint, "Error",
+                        JOptionPane.ERROR_MESSAGE
+                    );
                     return;
                 }
 
@@ -296,16 +297,6 @@ class DrawFrame extends JFrame {
 
             resetPath();
             navigate();
-        }
-
-        /**
-         * Displays an error when attempting to block a start or end point.
-         */
-        private void displayStartEndBlockError() {
-            JOptionPane.showMessageDialog(
-                null, UIStrings.blockedStartEndPoint, "Error",
-                JOptionPane.ERROR_MESSAGE
-            );
         }
 
         /**
