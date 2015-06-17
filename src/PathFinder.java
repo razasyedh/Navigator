@@ -5,6 +5,8 @@ import java.util.Vector;
 /**
  * An implementation of the Wavefront algorithm for finding the path between
  * two points on a grid of linked nodes.
+ * <p>
+ * Passing {@code null} parameters will throw a {@code NullPointerException}.
  */
 public class PathFinder implements Navigation {
     /** The linked grid. */
@@ -28,10 +30,15 @@ public class PathFinder implements Navigation {
      * and within the grid range.
      *
      * @throws IllegalArgumentException If the start and end points are the
-     *         same or out of range.
-     * @throws NullPointerException If the grid contains null links.
+     *         same
+     * @throws IndexOutOfBoundsException If the start and end points are
+     *         outside of the grid.
      */
     public PathFinder(LinkedGrid grid, Point2D start, Point2D end) {
+        if (grid == null) {
+            throw new NullPointerException("The passed in grid is null.");
+        }
+
         this.grid = grid;
         this.start = start;
         this.end = end;
@@ -45,14 +52,19 @@ public class PathFinder implements Navigation {
      * node and traversing the result.
      */
     private void calculatePath() {
+        // Run some checks
+        if (start == null || end == null) {
+            throw new NullPointerException("The start or end point is null.");
+        }
+
         if (start.equals(end)) {
             throw new IllegalArgumentException("End point is the same as the"
                                                + " start point.");
         }
 
         if (!pointInRange(start) || !pointInRange(end)) {
-            throw new IllegalArgumentException("Start or end points outside of"
-                                               + " grid.");
+            throw new IndexOutOfBoundsException("Start or end points outside"
+                                                + " of grid range.");
         }
 
         fillGrid();
@@ -177,21 +189,22 @@ public class PathFinder implements Navigation {
      * @return true if the second node is traversable from the first.
      */
     private boolean isNextNode(DNode first, DNode second) {
-        if (first == null) {
-            throw new NullPointerException("Linked grid has a null link.");
-        }
-
         if (second == null) {
             return false;
         }
 
         boolean isLess;
         int secondVal = second.getValue();
+        int comparison = second.compareTo(first);
         if (secondVal == UNFILLED || secondVal == BLOCKED) {
             isLess = false;
-        } else if (second.compareTo(first) < 0) {
+        } else if (comparison < 0) {
             isLess = true;
-        } else { // Higher or equal value
+        } else if (comparison == 0) {
+            // Make sure the grid isn't in an invalid state
+            throw new IllegalStateException("Adjacent nodes have the same"
+                                            +" value.");
+        } else { // Higher value
             isLess = false;
         }
 
@@ -203,7 +216,9 @@ public class PathFinder implements Navigation {
      *
      * @param start The new starting point.
      * @throws IllegalArgumentException If the start point is the same as the
-     *         end or out of range.
+     *         end.
+     * @throws IndexOutOfBoundsException If the start point is outside of the
+     *         grid.
      */
     public void setStart(Point2D start) {
         this.start = start;
@@ -215,7 +230,9 @@ public class PathFinder implements Navigation {
      *
      * @param end The new ending point.
      * @throws IllegalArgumentException If the end point is the same as the
-     *         start or out of range.
+     *         start.
+     * @throws IndexOutOfBoundsException If the end point is outside of the
+     *         grid.
      */
     public void setEnd(Point2D end) {
         this.end = end;
