@@ -162,17 +162,30 @@ public class PathFinder implements Navigation {
         DNode current = grid.getNode(coordinates);
 
         DNode north = current.getNorth();
-        DNode south = current.getSouth();
+        DNode northWest = current.getNorthWest();
         DNode west = current.getWest();
+        DNode southWest = current.getSouthWest();
+        DNode south = current.getSouth();
+        DNode southEast = current.getSouthEast();
         DNode east = current.getEast();
+        DNode northEast = current.getNorthEast();
+
         if (isNextNode(current, north)) {
             nextNode.translate(0, 1);
-        } else if (isNextNode(current, south)) {
-            nextNode.translate(0, -1);
+        } else if (isNextNode(current, northWest)) {
+            nextNode.translate(-1, 1);
         } else if (isNextNode(current, west)) {
             nextNode.translate(-1, 0);
+        } else if (isNextNode(current, southWest)) {
+            nextNode.translate(-1, -1);
+        } else if (isNextNode(current, south)) {
+            nextNode.translate(0, -1);
+        } else if (isNextNode(current, southEast)) {
+            nextNode.translate(1, -1);
         } else if (isNextNode(current, east)) {
             nextNode.translate(1, 0);
+        } else if (isNextNode(current, northEast)) {
+            nextNode.translate(1, 1);
         } else {
             return null;
         }
@@ -199,10 +212,6 @@ public class PathFinder implements Navigation {
             isLess = false;
         } else if (comparison < 0) {
             isLess = true;
-        } else if (comparison == 0) {
-            // Make sure the grid isn't in an invalid state
-            throw new IllegalStateException("Adjacent nodes have the same"
-                                            + " value.");
         } else { // Higher value
             isLess = false;
         }

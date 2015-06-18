@@ -26,20 +26,36 @@ public class LinkedGrid extends Grid {
     private void linkNodes() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
+                if (j != cols-1) {
+                    grid[i][j].setNorth(grid[i][j + 1]);
+                }
+
+                if (i != 0 && j != cols - 1) {
+                    grid[i][j].setNorthWest(grid[i - 1][j + 1]);
+                }
+
                 if (i != 0) {
                     grid[i][j].setWest(grid[i - 1][j]);
                 }
 
-                if (i != rows - 1) {
-                    grid[i][j].setEast(grid[i + 1][j]);
+                if (i != 0 && j != 0) {
+                    grid[i][j].setSouthWest(grid[i - 1][j - 1]);
                 }
 
                 if (j != 0) {
                     grid[i][j].setSouth(grid[i][j - 1]);
                 }
 
-                if (j != cols - 1) {
-                    grid[i][j].setNorth(grid[i][j + 1]);
+                if (i != rows - 1 && j != 0) {
+                    grid[i][j].setSouthEast(grid[i + 1][j - 1]);
+                }
+
+                if (i != rows - 1) {
+                    grid[i][j].setEast(grid[i + 1][j]);
+                }
+
+                if (i != rows - 1 && j != cols - 1) {
+                    grid[i][j].setNorthEast(grid[i + 1][j + 1]);
                 }
             }
         }
