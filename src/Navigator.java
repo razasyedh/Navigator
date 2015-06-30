@@ -123,16 +123,14 @@ class DrawFrame extends JFrame {
      * Watch for mouse movement to change the cursor.
      */
     class MouseMoveListener extends MouseMotionAdapter {
-        private Ellipse2D[][] circles;
         private double clickX, clickY;
 
         @Override
         public void mouseMoved(MouseEvent e) {
             clickX = (double) e.getX();
             clickY = (double) e.getY();
-            circles = gridCanvas.getCircles();
+            Point2D p = gridCanvas.findCircle(clickX, clickY);
 
-            Point2D p = findCircle(circles, clickX, clickY);
             if (p == null) {
                 setCursor(
                     Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
@@ -161,38 +159,22 @@ class DrawFrame extends JFrame {
      * A listener that locates the circle that was clicked and toggles it.
      */
     class ToggleClickListener extends MouseAdapter {
-        private Ellipse2D[][] circles;
         private double clickX, clickY;
 
         @Override
             if (e.getButton() == MouseEvent.BUTTON1) {
                 clickX = (double) e.getX();
                 clickY = (double) e.getY();
-                circles = gridCanvas.getCircles();
+                p = gridCanvas.findCircle(clickX, clickY);
 
-                Point2D p = findCircle();
                 if (p == null) {
                     return;
                 }
             }
         }
 
-        /**
-         * Finds the circle that was clicked on.
-         *
-         * @return The coordinates of the circle or null if one wasn't clicked.
-         */
-        private Point2D findCircle() {
-            for (int i = 0; i < circles.length; i++) {
-                for (int j = 0; j < circles[i].length; j++) {
-                    Ellipse2D circle = circles[i][j];
-                    if (circle.contains(clickX, clickY)) {
-                        return new Point2D(i, j);
-                    }
                 }
-            }
 
-            return null;
         }
 
         /**

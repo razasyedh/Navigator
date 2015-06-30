@@ -176,6 +176,22 @@ class GridCanvas extends JPanel {
     }
 
     /**
+     * Finds the circle that was clicked on.
+     *
+     * @return The coordinates of the circle or null if one wasn't clicked.
+     */
+    public Point2D findCircle(double x, double y) {
+        for (int i = 0; i < circles.length; i++) {
+            for (int j = 0; j < circles[i].length; j++) {
+                Ellipse2D circle = circles[i][j];
+                if (circle.contains(x, y)) {
+                    return new Point2D(i, j);
+                }
+            }
+        }
+
+        return null;
+    }
      * Sets the start point.
      *
      * @param start The start point.
