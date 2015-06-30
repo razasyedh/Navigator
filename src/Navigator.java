@@ -120,7 +120,8 @@ class DrawFrame extends JFrame {
     }
 
     /**
-     * Watch for mouse movement to change the cursor.
+     * Watch for mouse movement to change the cursor and to float labels when
+     * dragged.
      */
     class MouseMoveListener extends MouseMotionAdapter {
         private double clickX, clickY;
@@ -151,6 +152,12 @@ class DrawFrame extends JFrame {
                 );
             }
         }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (cursorMode.equals("Start") || cursorMode.equals("End")) {
+                gridCanvas.setMoveIndicator(e.getX(), e.getY(), cursorMode);
+                gridCanvas.repaint();
             }
         }
     }
@@ -187,7 +194,12 @@ class DrawFrame extends JFrame {
                 clickX = (double) e.getX();
                 clickY = (double) e.getY();
                 p2 = gridCanvas.findCircle(clickX, clickY);
+
+                // Reset
                 if (p2 == null) {
+                    gridCanvas.setMoveIndicator(0, 0, "");
+                    gridCanvas.repaint();
+                    return;
                 }
 
                 // If we dragged while trying to block, ignore
@@ -262,6 +274,8 @@ class DrawFrame extends JFrame {
                 null, UIStrings.sameStartEndPoints, "Error",
                 JOptionPane.ERROR_MESSAGE
             );
+            gridCanvas.setMoveIndicator(0, 0, "");
+            gridCanvas.repaint();
         }
     }
 }

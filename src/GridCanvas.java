@@ -21,6 +21,10 @@ class GridCanvas extends JPanel {
     private Point2D[] path;
     private Ellipse2D[][] circles;
 
+    private int moveIndicatorX;
+    private int moveIndicatorY;
+    private String moveIndicatorLabel;
+
     /**
      * Creates an empty canvas of the given size and properties.
      *
@@ -37,6 +41,7 @@ class GridCanvas extends JPanel {
         this.grid = grid;
         this.start = Point2D.reverse(start);
         this.end = Point2D.reverse(end);
+        this.moveIndicatorLabel = "";
 
         circles = new Ellipse2D[x][y];
     }
@@ -97,12 +102,17 @@ class GridCanvas extends JPanel {
         // Draw indicators
         g2.setPaint(Color.WHITE);
 
-        if (start != null) {
+        if (start != null && !moveIndicatorLabel.equals("Start")) {
             drawIndicator(g2, start, "S");
         }
 
-        if (end != null) {
+        if (end != null && !moveIndicatorLabel.equals("End")) {
             drawIndicator(g2, end, "E");
+        }
+
+        if (!moveIndicatorLabel.equals("")) {
+            String ch = moveIndicatorLabel.substring(0, 1);
+            g2.drawString(ch, moveIndicatorX, moveIndicatorY);
         }
 
         for (int row = 0; row < x; row++) {
@@ -122,9 +132,11 @@ class GridCanvas extends JPanel {
             }
         }
 
-        if (path != null) {
+        if (path != null && moveIndicatorLabel.equals("")) {
             drawPath(g2);
         }
+
+        moveIndicatorLabel = "";
 
         // Print path distance in lower left corner
         if (Debug.ON) {
@@ -192,6 +204,14 @@ class GridCanvas extends JPanel {
 
         return null;
     }
+
+    public void setMoveIndicator(int x, int y, String label) {
+        moveIndicatorX = x - FONT_OFFSET_X;
+        moveIndicatorY = y + FONT_OFFSET_Y;
+        moveIndicatorLabel = label;
+    }
+
+    /**
      * Sets the start point.
      *
      * @param start The start point.
@@ -225,14 +245,5 @@ class GridCanvas extends JPanel {
      */
     public void setPath(Point2D[] path) {
         this.path = path;
-    }
-
-    /**
-     * Returns the circles that represent the grid drawn on the canvas.
-     *
-     * @return A 2D array of the circles.
-     */
-    public Ellipse2D[][] getCircles() {
-        return circles;
     }
 }
