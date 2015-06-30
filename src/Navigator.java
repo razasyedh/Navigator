@@ -243,14 +243,6 @@ class DrawFrame extends JFrame {
             }
 
             if (cursorMode.equals("Block")) {
-                if (p.equals(start) || p.equals(end)) {
-                    JOptionPane.showMessageDialog(
-                        null, UIStrings.blockedStartEndPoint, "Error",
-                        JOptionPane.ERROR_MESSAGE
-                    );
-                    return;
-                }
-
                 Node n = grid.getNode(p);
                 // Toggle whether the node is blocked
                 if (n.getValue() == PathFinder.BLOCKED) {
@@ -271,8 +263,8 @@ class DrawFrame extends JFrame {
          */
         private void displayStartEqualEndError() {
             JOptionPane.showMessageDialog(
-                null, UIStrings.sameStartEndPoints, "Error",
-                JOptionPane.ERROR_MESSAGE
+                null, "The end point cannot be the same as the start point",
+                "Error", JOptionPane.ERROR_MESSAGE
             );
             gridCanvas.setMoveIndicator(0, 0, "");
             gridCanvas.repaint();
