@@ -22,6 +22,7 @@ public class Navigator {
 class DrawFrame extends JFrame {
     private static final int GRID_WIDTH = 15;
     private static final int GRID_HEIGHT = 10;
+    private final boolean isMacOSX;
     private String cursorMode;
     private GridCanvas gridCanvas;
 
@@ -34,6 +35,7 @@ class DrawFrame extends JFrame {
      * Sets up everything necessary for the GUI to function.
      */
     public DrawFrame() {
+        isMacOSX = System.getProperty("os.name").startsWith("Mac OS X");
         grid = new LinkedGrid(GRID_HEIGHT, GRID_WIDTH);
         setDefaults();
 
@@ -79,6 +81,7 @@ class DrawFrame extends JFrame {
      */
     private void setListeners() {
         gridCanvas.addMouseListener(new ToggleClickListener());
+        gridCanvas.addMouseMotionListener(new MouseMoveListener());
         gridCanvas.addKeyListener(new EscapeListener());
     }
 
@@ -115,6 +118,41 @@ class DrawFrame extends JFrame {
             }
         }
     }
+
+    /**
+     * Watch for mouse movement to change the cursor.
+     */
+    class MouseMoveListener extends MouseMotionAdapter {
+        private Ellipse2D[][] circles;
+        private double clickX, clickY;
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            clickX = (double) e.getX();
+            clickY = (double) e.getY();
+            circles = gridCanvas.getCircles();
+
+            Point2D p = findCircle(circles, clickX, clickY);
+            if (p == null) {
+                setCursor(
+                    Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
+                );
+            } else if (p.equals(start) || p.equals(end)){
+                if (isMacOSX) {
+                    setCursor(
+                        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+                    );
+                } else { // Doesn't show up on OS X
+                    setCursor(
+                        Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)
+                    );
+                }
+            } else {
+                setCursor(
+                    Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)
+                );
+            }
+        }
             }
         }
     }
@@ -126,15 +164,7 @@ class DrawFrame extends JFrame {
         private Ellipse2D[][] circles;
         private double clickX, clickY;
 
-        /**
-         * Finds a circle and toggles it, resetting the cursor.
-         */
         @Override
-        public void mouseClicked(MouseEvent e) {
-            if (cursorMode == null) {
-                return;
-            }
-
             if (e.getButton() == MouseEvent.BUTTON1) {
                 clickX = (double) e.getX();
                 clickY = (double) e.getY();
@@ -144,9 +174,6 @@ class DrawFrame extends JFrame {
                 if (p == null) {
                     return;
                 }
-
-                toggleCircle(p);
-                resetCursor();
             }
         }
 
