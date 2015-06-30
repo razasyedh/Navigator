@@ -220,6 +220,7 @@ class DrawFrame extends JFrame {
             if (cursorMode.equals("Start")) {
                 if (p.equals(end)) {
                     displayStartEqualEndError();
+                    gridCanvas.requestFocusInWindow();
                     return;
                 }
 
@@ -234,6 +235,7 @@ class DrawFrame extends JFrame {
             } else if (cursorMode.equals("End")) {
                 if (p.equals(start)) {
                     displayStartEqualEndError();
+                    gridCanvas.requestFocusInWindow();
                     return;
                 }
 
