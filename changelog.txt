@@ -1,0 +1,9 @@
+0.7 - Initial working app. The Wavefront Implementation is pretty slow.
+1.0 - The pathfinding algorithm is much faster thanks to a bugfix for
+      duplicate nodes being queued.
+1.2 - Navigator now updates paths on the fly. Colors have also been redone so
+      they won't bleed after a certain limit. Lastly, the UI has been a little
+      simplified.
+1.5 - The app is now entirely mouse-controlled for a simplified user
+      experience. A bug causing the cursor to not change after errors has also
+      been fixed.
