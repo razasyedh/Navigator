@@ -23,12 +23,10 @@ class DrawFrame extends JFrame {
     private static final int GRID_WIDTH = 15;
     private static final int GRID_HEIGHT = 10;
     private String cursorMode;
-    private ArrayList<JButton> toggleButtons;
     private GridCanvas gridCanvas;
-    private JButton resetButton;
 
-    private LinkedGrid grid;
-    private PathFinder pathFinder;
+    private final LinkedGrid grid;
+    private final PathFinder pathFinder;
     private Point2D start, end;
     private Point2D[] path;
 
@@ -37,7 +35,6 @@ class DrawFrame extends JFrame {
      */
     public DrawFrame() {
         grid = new LinkedGrid(GRID_HEIGHT, GRID_WIDTH);
-        toggleButtons = new ArrayList<>(4);
         setDefaults();
 
         applySettings();
@@ -61,11 +58,10 @@ class DrawFrame extends JFrame {
      * Applies seetings for the main application window.
      */
     private void applySettings() {
-        setSize(595, 500);
+        setSize(595, 425);
         setLocationRelativeTo(null);
         setTitle("Navigator");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
         setResizable(false);
     }
 
@@ -74,62 +70,14 @@ class DrawFrame extends JFrame {
      */
     private void addComponents() {
         gridCanvas = new GridCanvas(GRID_HEIGHT, GRID_WIDTH, grid, start, end);
-        add(gridCanvas, BorderLayout.CENTER);
-
-        JPanel options = new JPanel();
-
-        JPanel toggles = new JPanel();
-        JButton startButton = new JButton(UIStrings.startButtonLabel);
-        startButton.setMnemonic(KeyEvent.VK_S);
-        startButton.setToolTipText(UIStrings.startButtonTip);
-        toggles.add(startButton);
-        toggleButtons.add(startButton);
-        JButton endButton = new JButton(UIStrings.endButtonLabel);
-        endButton.setMnemonic(KeyEvent.VK_E);
-        endButton.setToolTipText(UIStrings.endButtonTip);
-        toggles.add(endButton);
-        toggleButtons.add(endButton);
-        JButton blockButton = new JButton(UIStrings.blockButtonLabel);
-        blockButton.setMnemonic(KeyEvent.VK_B);
-        blockButton.setToolTipText(UIStrings.blockButtonTip);
-        toggles.add(blockButton);
-        toggleButtons.add(blockButton);
-
-        toggles.setBorder(new TitledBorder("Toggles"));
-        options.add(toggles);
-
-        JPanel actions = new JPanel();
-        resetButton = new JButton(UIStrings.resetButtonLabel);
-        resetButton.setMnemonic(KeyEvent.VK_C);
-        resetButton.setToolTipText(UIStrings.resetButtonTip);
-
-        actions.add(resetButton);
-        actions.setBorder(new TitledBorder("Actions"));
-        options.add(actions);
-
-        add(options, BorderLayout.SOUTH);
+        add(gridCanvas);
     }
 
     /**
      * Adds listeners for various events.
      */
     private void setListeners() {
-        for (JButton button : toggleButtons) {
-            button.addActionListener(new ToggleListener(button.getText()));
-            button.addKeyListener(new EscapeListener());
-        }
-
         gridCanvas.addMouseListener(new ToggleClickListener());
-
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                resetCursor();
-                resetPath();
-                pathFinder.reset();
-                navigate();
-            }
-        });
     }
 
     /**
@@ -155,31 +103,6 @@ class DrawFrame extends JFrame {
         path = pathFinder.getPath();
         gridCanvas.setPath(path);
         gridCanvas.repaint();
-    }
-
-    /**
-     * A listener that changes the cursor when a toggle button is clicked.
-     */
-    class ToggleListener implements ActionListener {
-        private String mode;
-
-        /**
-         * Creates a listener with the given mode.
-         */
-        public ToggleListener(String mode) {
-            this.mode = mode;
-        }
-
-        /**
-         * Changes the cursor and mode when a button is clicked.
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            cursorMode = mode;
-            setCursor(
-                Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)
-            );
-        }
     }
 
     /**
