@@ -80,8 +80,9 @@ class DrawFrame extends JFrame {
      * Adds listeners for various events.
      */
     private void setListeners() {
-        gridCanvas.addMouseListener(new ToggleClickListener());
-        gridCanvas.addMouseMotionListener(new MouseMoveListener());
+        MouseMoveListener ml = new MouseMoveListener();
+        gridCanvas.addMouseListener(ml);
+        gridCanvas.addMouseMotionListener(ml);
         gridCanvas.addKeyListener(new EscapeListener());
     }
 
@@ -125,52 +126,10 @@ class DrawFrame extends JFrame {
     }
 
     /**
-     * Listens for mouse movement to change the cursor and to float labels
-     * when dragged.
+     * A listener that responds to mouse movement and clicks to update the
+     * interface.
      */
-    class MouseMoveListener extends MouseMotionAdapter {
-        private double clickX, clickY;
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            clickX = (double) e.getX();
-            clickY = (double) e.getY();
-            Point2D p = gridCanvas.findCircle(clickX, clickY);
-
-            if (p == null) {
-                setCursor(
-                    Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
-                );
-            } else if (p.equals(start) || p.equals(end)){
-                if (isMacOSX) {
-                    setCursor(
-                        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
-                    );
-                } else { // Doesn't show up on OS X
-                    setCursor(
-                        Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)
-                    );
-                }
-            } else {
-                setCursor(
-                    Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)
-                );
-            }
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if (cursorMode.equals("Start") || cursorMode.equals("End")) {
-                gridCanvas.setMoveIndicator(e.getX(), e.getY(), cursorMode);
-                gridCanvas.repaint();
-            }
-        }
-    }
-
-    /**
-     * A listener that locates the circle that was clicked and toggles it.
-     */
-    class ToggleClickListener extends MouseAdapter {
+    class MouseMoveListener extends MouseAdapter {
         private double clickX, clickY;
         private Point2D p1, p2;
 
@@ -213,6 +172,41 @@ class DrawFrame extends JFrame {
                 }
 
                 toggleCircle(p2);
+            }
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            clickX = (double) e.getX();
+            clickY = (double) e.getY();
+            Point2D p = gridCanvas.findCircle(clickX, clickY);
+
+            if (p == null) {
+                setCursor(
+                    Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
+                );
+            } else if (p.equals(start) || p.equals(end)){
+                if (isMacOSX) {
+                    setCursor(
+                        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+                    );
+                } else { // Doesn't show up on OS X
+                    setCursor(
+                        Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)
+                    );
+                }
+            } else {
+                setCursor(
+                    Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)
+                );
+            }
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (cursorMode.equals("Start") || cursorMode.equals("End")) {
+                gridCanvas.setMoveIndicator(e.getX(), e.getY(), cursorMode);
+                gridCanvas.repaint();
             }
         }
 
