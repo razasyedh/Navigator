@@ -70,6 +70,7 @@ class DrawFrame extends JFrame {
      */
     private void addComponents() {
         gridCanvas = new GridCanvas(GRID_HEIGHT, GRID_WIDTH, grid, start, end);
+        gridCanvas.setFocusable(true);
         add(gridCanvas);
     }
 
@@ -78,6 +79,7 @@ class DrawFrame extends JFrame {
      */
     private void setListeners() {
         gridCanvas.addMouseListener(new ToggleClickListener());
+        gridCanvas.addKeyListener(new EscapeListener());
     }
 
     /**
@@ -88,14 +90,10 @@ class DrawFrame extends JFrame {
         gridCanvas.setPath(null);
     }
 
-    /**
-     * Resets the cursor to the default.
-     */
-    public void resetCursor() {
-        setCursor(
-            Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
-        );
-        cursorMode = null;
+    public void resetGrid() {
+        resetPath();
+        pathFinder.reset();
+        navigate();
     }
 
     public void navigate(){
@@ -113,7 +111,10 @@ class DrawFrame extends JFrame {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                resetCursor();
+                resetGrid();
+            }
+        }
+    }
             }
         }
     }
