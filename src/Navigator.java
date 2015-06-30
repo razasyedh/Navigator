@@ -93,14 +93,19 @@ class DrawFrame extends JFrame {
         gridCanvas.setPath(null);
     }
 
+    /**
+     * Resets all blocked nodes in the grid.
+     */
     public void resetGrid() {
         resetPath();
         pathFinder.reset();
         navigate();
     }
 
+    /**
+     * Obtains and shows the path between the start and end point.
+     */
     public void navigate(){
-        // Show the path between the start and end points
         path = pathFinder.getPath();
         gridCanvas.setPath(path);
         gridCanvas.repaint();
@@ -120,8 +125,8 @@ class DrawFrame extends JFrame {
     }
 
     /**
-     * Watch for mouse movement to change the cursor and to float labels when
-     * dragged.
+     * Listens for mouse movement to change the cursor and to float labels
+     * when dragged.
      */
     class MouseMoveListener extends MouseMotionAdapter {
         private double clickX, clickY;
