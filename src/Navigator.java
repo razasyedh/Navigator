@@ -121,6 +121,9 @@ class DrawFrame extends JFrame {
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 resetGrid();
+            } else if (e.getKeyCode() == KeyEvent.VK_D) {
+                gridCanvas.toggleDebug();
+                gridCanvas.repaint();
             }
         }
     }

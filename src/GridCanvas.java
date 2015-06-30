@@ -25,6 +25,8 @@ class GridCanvas extends JPanel {
     private int moveIndicatorY;
     private String moveIndicatorLabel;
 
+    private boolean debugOn;
+
     /**
      * Creates an empty canvas of the given size and properties.
      *
@@ -122,8 +124,7 @@ class GridCanvas extends JPanel {
 
                 if (nodeValue == PathFinder.BLOCKED) {
                     drawIndicator(g2, p, "B");
-                } else if (Debug.ON && Debug.SHOW_VALUES
-                           && !p.equals(start) && !p.equals(end)) {
+                } else if (debugOn && !p.equals(start) && !p.equals(end)) {
                     // Smaller font needed because values can be 2 digits
                     g2.setFont(defaultFont);
                     drawIndicator(g2, p, Integer.toString(nodeValue));
@@ -139,7 +140,7 @@ class GridCanvas extends JPanel {
         moveIndicatorLabel = "";
 
         // Print path distance in lower left corner
-        if (Debug.ON) {
+        if (debugOn) {
             g2.setColor(Color.RED);
             String dist = Integer.toString(path.length - 1);
             g2.drawString(dist, 1.0F, getHeight());
@@ -245,5 +246,9 @@ class GridCanvas extends JPanel {
      */
     public void setPath(Point2D[] path) {
         this.path = path;
+    }
+
+    public void toggleDebug() {
+        debugOn = !debugOn;
     }
 }
