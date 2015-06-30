@@ -160,21 +160,43 @@ class DrawFrame extends JFrame {
      */
     class ToggleClickListener extends MouseAdapter {
         private double clickX, clickY;
+        private Point2D p1, p2;
 
         @Override
+        public void mousePressed(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 clickX = (double) e.getX();
                 clickY = (double) e.getY();
-                p = gridCanvas.findCircle(clickX, clickY);
+                p1 = gridCanvas.findCircle(clickX, clickY);
 
-                if (p == null) {
+                if (p1 == null) {
                     return;
+                } else if (p1.equals(start)){
+                    cursorMode = "Start";
+                } else if (p1.equals(end)){
+                    cursorMode = "End";
+                } else {
+                    cursorMode = "Block";
                 }
             }
         }
 
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                clickX = (double) e.getX();
+                clickY = (double) e.getY();
+                p2 = gridCanvas.findCircle(clickX, clickY);
+                if (p2 == null) {
                 }
 
+                // If we dragged while trying to block, ignore
+                if (cursorMode.equals("Block") && !p1.equals(p2)) {
+                    return;
+                }
+
+                toggleCircle(p2);
+            }
         }
 
         /**
