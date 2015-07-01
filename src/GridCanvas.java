@@ -8,9 +8,9 @@ import java.awt.Graphics;
  * for the different types of nodes.
  */
 class GridCanvas extends JPanel {
-    private final int DIAMETER = 29;
-    private final int PADDING = 5;
-    private final int SPAN = DIAMETER + 2 * PADDING;
+    public static final int DIAMETER = 29;
+    public static final int PADDING = 5;
+    public static final int SPAN = DIAMETER + 2 * PADDING;
     private final float FONT_SIZE = 22.0F;
     private final int FONT_OFFSET_X = 6;
     private final int FONT_OFFSET_Y = 8;
@@ -144,7 +144,7 @@ class GridCanvas extends JPanel {
         if (debugOn) {
             g2.setColor(Color.RED);
             String dist = Integer.toString(path.length - 1);
-            g2.drawString(dist, 1.0F, getHeight());
+            g2.drawString(dist, 1.0F, getHeight() - 1.0F);
         }
     }
 

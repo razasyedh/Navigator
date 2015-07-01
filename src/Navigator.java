@@ -23,6 +23,8 @@ class DrawFrame extends JFrame {
     private static final int GRID_WIDTH = 15;
     private static final int GRID_HEIGHT = 10;
     private final boolean isMacOSX;
+    private int windowWidth, windowHeight;
+
     private String cursorMode;
     private GridCanvas gridCanvas;
 
@@ -51,6 +53,9 @@ class DrawFrame extends JFrame {
      * Sets defaults so users can see an example on startup.
      */
     private void setDefaults() {
+        windowWidth = GRID_WIDTH * GridCanvas.SPAN + 2 * GridCanvas.PADDING;
+        windowHeight = GRID_HEIGHT * GridCanvas.SPAN + 2 * GridCanvas.PADDING;
+
         start = new Point2D(0, 0);
         end = new Point2D(0, 3);
         grid.getNode(0, 2).setValue(PathFinder.BLOCKED);
@@ -60,7 +65,7 @@ class DrawFrame extends JFrame {
      * Applies seetings for the main application window.
      */
     private void applySettings() {
-        setSize(595, 425);
+        setSize(windowWidth, windowHeight);
         setLocationRelativeTo(null);
         setTitle("Navigator");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
