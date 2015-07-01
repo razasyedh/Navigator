@@ -22,7 +22,8 @@ public class Navigator {
 class DrawFrame extends JFrame {
     private static final int GRID_WIDTH = 15;
     private static final int GRID_HEIGHT = 10;
-    private final boolean isMacOSX;
+
+    private Cursor platformMoveCursor;
     private int windowWidth, windowHeight;
 
     private String cursorMode;
@@ -37,9 +38,9 @@ class DrawFrame extends JFrame {
      * Sets up everything necessary for the GUI to function.
      */
     public DrawFrame() {
-        isMacOSX = System.getProperty("os.name").startsWith("Mac OS X");
         grid = new LinkedGrid(GRID_HEIGHT, GRID_WIDTH);
         setDefaults();
+        setPlatformProperties();
 
         applySettings();
         addComponents();
@@ -50,15 +51,30 @@ class DrawFrame extends JFrame {
     }
 
     /**
-     * Sets defaults so users can see an example on startup.
+     * Sets defaults.
      */
     private void setDefaults() {
         windowWidth = GRID_WIDTH * GridCanvas.SPAN + 2 * GridCanvas.PADDING;
-        windowHeight = GRID_HEIGHT * GridCanvas.SPAN + 2 * GridCanvas.PADDING;
+        windowHeight = GRID_HEIGHT * GridCanvas.SPAN + 2 * GridCanvas.PADDING
+                       +  22; // Account for window bar
 
         start = new Point2D(0, 0);
         end = new Point2D(0, 3);
         grid.getNode(0, 2).setValue(PathFinder.BLOCKED);
+    }
+
+    /**
+     * Sets GUI properties depending on whether the platform is OS X.
+     */
+    public void setPlatformProperties() {
+        boolean isMacOSX = System.getProperty("os.name").startsWith("Mac OS X");
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        if (isMacOSX) {
+            platformMoveCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+        } else {
+            platformMoveCursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
+            windowHeight += 20; // Acount for menu bar
+        }
     }
 
     /**
@@ -192,15 +208,9 @@ class DrawFrame extends JFrame {
                     Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
                 );
             } else if (p.equals(start) || p.equals(end)){
-                if (isMacOSX) {
-                    setCursor(
-                        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
-                    );
-                } else { // Doesn't show up on OS X
-                    setCursor(
-                        Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)
-                    );
-                }
+                setCursor(
+                    platformMoveCursor
+                );
             } else {
                 setCursor(
                     Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)
