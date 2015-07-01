@@ -134,20 +134,18 @@ class DrawFrame extends JFrame {
      */
     class MouseMoveListener extends MouseAdapter {
         private double clickX, clickY;
-        private Point2D p1, p2;
+        private Point2D p;
 
         @Override
         public void mousePressed(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON1) {
-                clickX = (double) e.getX();
-                clickY = (double) e.getY();
-                p1 = gridCanvas.findCircle(clickX, clickY);
+                updateClickLocation(e);
 
-                if (p1 == null) {
-                    return;
-                } else if (p1.equals(start)){
+                if (p == null) {
+                    cursorMode = "";
+                } else if (p.equals(start)){
                     cursorMode = "Start";
-                } else if (p1.equals(end)){
+                } else if (p.equals(end)){
                     cursorMode = "End";
                 } else {
                     cursorMode = "Block";
@@ -158,31 +156,22 @@ class DrawFrame extends JFrame {
         @Override
         public void mouseReleased(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON1) {
-                clickX = (double) e.getX();
-                clickY = (double) e.getY();
-                p2 = gridCanvas.findCircle(clickX, clickY);
+                updateClickLocation(e);
 
                 // Reset
-                if (p2 == null) {
+                if (p == null) {
                     gridCanvas.setMoveIndicator(0, 0, "");
                     gridCanvas.repaint();
                     return;
                 }
 
-                // If we dragged while trying to block, ignore
-                if (cursorMode.equals("Block") && !p1.equals(p2)) {
-                    return;
-                }
-
-                toggleCircle(p2);
+                toggleCircle(p);
             }
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            clickX = (double) e.getX();
-            clickY = (double) e.getY();
-            Point2D p = gridCanvas.findCircle(clickX, clickY);
+            updateClickLocation(e);
 
             if (p == null) {
                 setCursor(
@@ -211,6 +200,12 @@ class DrawFrame extends JFrame {
                 gridCanvas.setMoveIndicator(e.getX(), e.getY(), cursorMode);
                 gridCanvas.repaint();
             }
+        }
+
+        private void updateClickLocation(MouseEvent e) {
+            clickX = (double) e.getX();
+            clickY = (double) e.getY();
+            p = gridCanvas.findCircle(clickX, clickY);
         }
 
         /**
