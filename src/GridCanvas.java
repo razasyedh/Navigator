@@ -112,13 +112,6 @@ class GridCanvas extends JPanel {
             drawIndicator(g2, end, "E");
         }
 
-        if (!moveIndicatorLabel.equals("")) {
-            g2.setColor(Color.BLACK); // For visiblity
-            String ch = moveIndicatorLabel.substring(0, 1);
-            g2.drawString(ch, moveIndicatorX, moveIndicatorY);
-            g2.setColor(Color.WHITE);
-        }
-
         for (int row = 0; row < x; row++) {
             for (int col = 0; col < y; col++) {
                 int nodeValue = grid.getNode(row, col).getValue();
@@ -137,6 +130,12 @@ class GridCanvas extends JPanel {
 
         if (path != null && moveIndicatorLabel.equals("")) {
             drawPath(g2);
+        }
+
+        if (!moveIndicatorLabel.equals("")) {
+            g2.setColor(Color.BLACK); // For visiblity
+            String ch = moveIndicatorLabel.substring(0, 1);
+            g2.drawString(ch, moveIndicatorX, moveIndicatorY);
         }
 
         moveIndicatorLabel = "";
