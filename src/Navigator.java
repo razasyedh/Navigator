@@ -74,6 +74,32 @@ class DrawFrame extends JFrame {
         gridCanvas = new GridCanvas(GRID_HEIGHT, GRID_WIDTH, grid, start, end);
         gridCanvas.setFocusable(true);
         add(gridCanvas);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu editMenu = new JMenu("Edit");
+        JMenuItem clear = new JMenuItem("Clear Blocked Nodes");
+        clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+        clear.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                resetGrid();
+            }
+        });
+        editMenu.add(clear);
+
+        JMenu viewMenu = new JMenu("View");
+        JMenuItem debug = new JMenuItem("Toggle Debug Mode");
+        debug.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0));
+        debug.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                gridCanvas.toggleDebug();
+                gridCanvas.repaint();
+            }
+        });
+        viewMenu.add(debug);
+
+        menuBar.add(editMenu);
+        menuBar.add(viewMenu);
+        setJMenuBar(menuBar);
     }
 
     /**
@@ -83,7 +109,6 @@ class DrawFrame extends JFrame {
         MouseMoveListener ml = new MouseMoveListener();
         gridCanvas.addMouseListener(ml);
         gridCanvas.addMouseMotionListener(ml);
-        gridCanvas.addKeyListener(new EscapeListener());
     }
 
     /**
@@ -110,22 +135,6 @@ class DrawFrame extends JFrame {
         path = pathFinder.getPath();
         gridCanvas.setPath(path);
         gridCanvas.repaint();
-    }
-
-    /**
-     * A listener that checks for the escape key to reset the cursor
-     * after a toggle button was clicked.
-     */
-    class EscapeListener extends KeyAdapter {
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                resetGrid();
-            } else if (e.getKeyCode() == KeyEvent.VK_D) {
-                gridCanvas.toggleDebug();
-                gridCanvas.repaint();
-            }
-        }
     }
 
     /**
