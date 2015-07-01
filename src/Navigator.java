@@ -220,30 +220,37 @@ class DrawFrame extends JFrame {
          */
         private void toggleCircle(Point2D p) {
             if (cursorMode.equals("Start")) {
-                if (p.equals(end)) {
-                    displayStartEqualEndError();
-                    gridCanvas.requestFocusInWindow();
-                    return;
-                }
-
+                // Let the start point replace a blocked node
                 if (grid.getNode(p).getValue() == PathFinder.BLOCKED) {
                     grid.getNode(p).setValue(PathFinder.UNFILLED);
                     pathFinder.update();
                 }
 
-                start = p;
                 gridCanvas.setStart(p);
                 pathFinder.setStart(p);
-            } else if (cursorMode.equals("End")) {
-                if (p.equals(start)) {
-                    displayStartEqualEndError();
-                    gridCanvas.requestFocusInWindow();
-                    return;
+
+                // Switch start and end points.
+                // Have to setStart() first because it bypasses calculatePath()
+                // in PathFinder so it allows us to temporarily have the start
+                // and end be the same.
+                if (p.equals(end)) {
+                    end = start;
+                    gridCanvas.setEnd(start);
+                    pathFinder.setEnd(start);
                 }
 
-                end = p;
+                start = p;
+            } else if (cursorMode.equals("End")) {
+                // Switch end and start points
+                if (p.equals(start)) {
+                    start = end;
+                    gridCanvas.setStart(end);
+                    pathFinder.setStart(end);
+                }
+
                 gridCanvas.setEnd(p);
                 pathFinder.setEnd(p);
+                end = p;
             }
 
             if (cursorMode.equals("Block")) {
@@ -260,18 +267,6 @@ class DrawFrame extends JFrame {
 
             resetPath();
             navigate();
-        }
-
-        /**
-         * Displays an error when trying to overlap the start and end points.
-         */
-        private void displayStartEqualEndError() {
-            JOptionPane.showMessageDialog(
-                null, "The end point cannot be the same as the start point",
-                "Error", JOptionPane.ERROR_MESSAGE
-            );
-            gridCanvas.setMoveIndicator(0, 0, "");
-            gridCanvas.repaint();
         }
     }
 }
