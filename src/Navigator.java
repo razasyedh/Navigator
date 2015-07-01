@@ -40,13 +40,13 @@ class DrawFrame extends JFrame {
     public DrawFrame() {
         grid = new LinkedGrid(GRID_HEIGHT, GRID_WIDTH);
         setDefaults();
-        setPlatformProperties();
+        pathFinder = new PathFinder(grid, start, end);
 
+        setPlatformProperties();
         applySettings();
         addComponents();
         setListeners();
 
-        pathFinder = new PathFinder(grid, start, end);
         navigate();
     }
 
