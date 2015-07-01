@@ -113,8 +113,10 @@ class GridCanvas extends JPanel {
         }
 
         if (!moveIndicatorLabel.equals("")) {
+            g2.setColor(Color.BLACK); // For visiblity
             String ch = moveIndicatorLabel.substring(0, 1);
             g2.drawString(ch, moveIndicatorX, moveIndicatorY);
+            g2.setColor(Color.WHITE);
         }
 
         for (int row = 0; row < x; row++) {
