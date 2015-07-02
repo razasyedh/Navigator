@@ -65,14 +65,18 @@ public class Point2D {
      *
      * @return The x coordinate.
      */
-    public int getX() {return x;}
+    public int getX() {
+        return x;
+    }
 
     /**
      * Gets the y coordinate of the Point2D.
      *
      * @return The y coordinate.
      */
-    public int getY() {return y;}
+    public int getY() {
+        return y;
+    }
 
     /**
      * Calculates the integer distance between two points.

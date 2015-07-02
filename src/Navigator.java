@@ -152,7 +152,7 @@ class DrawFrame extends JFrame {
     /**
      * Obtains and shows the path between the start and end point.
      */
-    public void navigate(){
+    public void navigate() {
         path = pathFinder.getPath();
         gridCanvas.setPath(path);
         gridCanvas.repaint();
@@ -173,9 +173,9 @@ class DrawFrame extends JFrame {
 
                 if (p == null) {
                     cursorMode = "";
-                } else if (p.equals(start)){
+                } else if (p.equals(start)) {
                     cursorMode = "Start";
-                } else if (p.equals(end)){
+                } else if (p.equals(end)) {
                     cursorMode = "End";
                 } else {
                     cursorMode = "Block";
@@ -207,7 +207,7 @@ class DrawFrame extends JFrame {
                 setCursor(
                     Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
                 );
-            } else if (p.equals(start) || p.equals(end)){
+            } else if (p.equals(start) || p.equals(end)) {
                 setCursor(
                     platformMoveCursor
                 );

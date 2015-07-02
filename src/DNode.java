@@ -1,8 +1,7 @@
 /**
  * A node that is aware of it's neighbors in 4 directions.
  */
-public class DNode extends Node implements Compass<DNode>
-{
+public class DNode extends Node implements Compass<DNode> {
     /** The node to the north. */
     private DNode north;
     /** The node to the south. */

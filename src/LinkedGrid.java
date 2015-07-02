@@ -25,19 +25,19 @@ public class LinkedGrid extends Grid {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (i != 0) {
-                    grid[i][j].setWest(grid[i-1][j]);
+                    grid[i][j].setWest(grid[i - 1][j]);
                 }
 
-                if (i != rows-1) {
-                    grid[i][j].setEast(grid[i+1][j]);
+                if (i != rows - 1) {
+                    grid[i][j].setEast(grid[i + 1][j]);
                 }
 
                 if (j != 0) {
-                    grid[i][j].setSouth(grid[i][j-1]);
+                    grid[i][j].setSouth(grid[i][j - 1]);
                 }
 
-                if (j != cols-1) {
-                    grid[i][j].setNorth(grid[i][j+1]);
+                if (j != cols - 1) {
+                    grid[i][j].setNorth(grid[i][j + 1]);
                 }
             }
         }

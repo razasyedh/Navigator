@@ -37,11 +37,9 @@ public class Node implements Comparable<Node> {
 
         if (this.value > other.getValue()) {
             compareResult = 1;
-        }
-        else if (this.value < other.getValue()) {
+        } else if (this.value < other.getValue()) {
             compareResult = -1;
-        }
-        else {
+        } else {
             compareResult = 0;
         }
 

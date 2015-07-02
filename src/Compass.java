@@ -3,13 +3,12 @@
  * nodes based on relative directions.
  */
 interface Compass<E> {
-    public E getNorth();
-    public E getSouth();
-    public E getEast();
-    public E getWest();
-
-    public void setNorth(E e);
-    public void setSouth(E e);
-    public void setEast(E e);
-    public void setWest(E e);
+    E getNorth();
+    E getSouth();
+    E getEast();
+    E getWest();
+    void setNorth(E e);
+    void setSouth(E e);
+    void setEast(E e);
+    void setWest(E e);
 }

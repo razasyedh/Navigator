@@ -203,7 +203,7 @@ public class PathFinder implements Navigation {
         } else if (comparison == 0) {
             // Make sure the grid isn't in an invalid state
             throw new IllegalStateException("Adjacent nodes have the same"
-                                            +" value.");
+                                            + " value.");
         } else { // Higher value
             isLess = false;
         }

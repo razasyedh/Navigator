@@ -8,5 +8,5 @@ interface Navigation {
      *
      * @return The calculated path.
      */
-    public Point2D[] getPath();
+    Point2D[] getPath();
 }

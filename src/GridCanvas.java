@@ -174,7 +174,7 @@ class GridCanvas extends JPanel {
     private void drawPath(Graphics2D g2) {
         for (int i = 0; i < path.length - 1; i++) {
             Point2D p1 = path[i];
-            Point2D p2 = path[i+1];
+            Point2D p2 = path[i + 1];
 
             int p1X = p1.getX();
             int p1Y = p1.getY();

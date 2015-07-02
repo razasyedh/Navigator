@@ -28,7 +28,7 @@ public class Grid {
     }
 
     /**
-     * Gets the node specified by the given coordinates,
+     * Gets the node specified by the given coordinates.
      *
      * @param x The x coordinate.
      * @param y The y coordinate.
@@ -39,7 +39,7 @@ public class Grid {
     }
 
     /**
-     * Gets the node specified by the given point,
+     * Gets the node specified by the given point.
      *
      * @param p The 2D point.
      * @return The node located at the given point.
