@@ -225,7 +225,7 @@ class GridCanvas extends JPanel {
         for (int i = 0; i < circles.length; i++) {
             for (int j = 0; j < circles[i].length; j++) {
                 Ellipse2D circle = circles[i][j];
-                if (circle.contains(x, y)) {
+                if (circle != null && circle.contains(x, y)) {
                     return new Point2D(i, j);
                 }
             }
