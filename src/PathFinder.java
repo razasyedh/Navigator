@@ -24,11 +24,10 @@ public class PathFinder implements Navigation {
 
     /**
      * Creates a PathFinder object with the given grid and points.
-     * <p>
-     * Preconditions: No null links should be present in the given grid, the
-     * path shouldn't be blocked, and start + end points have to be different
-     * and within the grid range.
      *
+     * @param grid The pre-initialized linked grid containing no null links.
+     * @param start The start point inside the grid different from the end.
+     * @param end The end point inside the grid different from the start.
      * @throws IllegalArgumentException If the start and end points are the
      *         same
      * @throws IndexOutOfBoundsException If the start and end points are
@@ -95,7 +94,7 @@ public class PathFinder implements Navigation {
         DNode endNode = grid.getNode(end);
         int fillValue = BLOCKED + 1;
 
-        // Fill the nodes breadth-first by continously queueing the neighbors
+        // Fill the nodes breadth-first by continuously queueing the neighbors
         fillQueue.add(endNode);
         while (fillQueue.size() != 0) {
             int nodesToFill = fillQueue.size();

@@ -12,31 +12,50 @@ import javax.swing.JPanel;
  * for the different types of nodes.
  */
 class GridCanvas extends JPanel {
+    /** The diameter of a node. */
     public static final int DIAMETER = 29;
+    /** The padding on one side of a node. */
     public static final int PADDING = 5;
+    /** The diameter along with the padding on both sides of a node. */
     public static final int SPAN = DIAMETER + 2 * PADDING;
+    /** The size of labels so they take up the full space of a node. */
     private final float FONT_SIZE = 22.0F;
+    /** How much to shift a letter to the left to center it. */
     private final int FONT_OFFSET_X = 6;
+    /** How much to shift a letter down from the baseline to center it. */
     private final int FONT_OFFSET_Y = 8;
 
-    private int x, y;
+    /** The width of the canvas. */
+    private int x;
+    /** The height of the canvas. */
+    private int y;
+    /** The grid to read blocked nodes from. */
     private Grid grid;
-    private Point2D start, end;
+    /** A start point to label. */
+    private Point2D start;
+    /** An end point to label. */
+    private Point2D end;
+    /** The calculated path to draw. */
     private Point2D[] path;
+    /** The graphical nodes. */
     private Ellipse2D[][] circles;
 
+    /** The x coordinate of a floating indicator. */
     private int moveIndicatorX;
+    /** The y coordinate of a floating indicator. */
     private int moveIndicatorY;
+    /** The text the label for a floating indicator. */
     private String moveIndicatorLabel;
 
+    /** Whether debug mode is enabled. */
     private boolean debugOn;
 
     /**
-     * Creates an empty canvas of the given size and properties.
+     * Creates a canvas of the given size and properties.
      *
      * @param x The width of the canvas.
      * @param y The height of the canvas.
-     * @param grid A linked grid to read values from.
+     * @param grid A grid to read values from.
      * @param start The start point.
      * @param end The end point.
      */
@@ -86,6 +105,7 @@ class GridCanvas extends JPanel {
                 } else if (nodeValue == PathFinder.BLOCKED) {
                     fillColor = Color.RED;
                 } else {
+                    final int RED_FACTOR = 3;
                     // Color the circle based on it's fill value, which
                     // corresponds to it's distance from the start point
                     int nodeColor = (int) ((nodeValue - minValue) * interval);
@@ -137,7 +157,7 @@ class GridCanvas extends JPanel {
         }
 
         if (!moveIndicatorLabel.equals("")) {
-            g2.setColor(Color.BLACK); // For visiblity
+            g2.setColor(Color.BLACK); // For visibility
             String ch = moveIndicatorLabel.substring(0, 1);
             g2.drawString(ch, moveIndicatorX, moveIndicatorY);
         }
@@ -194,9 +214,12 @@ class GridCanvas extends JPanel {
     }
 
     /**
-     * Finds the circle that was clicked on.
+     * Finds the grid coordinates of a circle that was clicked on.
      *
-     * @return The coordinates of the circle or null if one wasn't clicked.
+     * @param x The x coordinate of the click.
+     * @param y The y coordinate of the click.
+     * @return The coordinates of the circle or {@code null} if one wasn't
+     *         clicked.
      */
     public Point2D findCircle(double x, double y) {
         for (int i = 0; i < circles.length; i++) {
@@ -211,6 +234,15 @@ class GridCanvas extends JPanel {
         return null;
     }
 
+    /**
+     * Updates the location of a indicator that was moved.
+     *
+     * @param x The x coordinate of the indicator.
+     * @param y The y coordinate of the indicator.
+     * @param label The text of the label for the indicator. If it is an empty
+     *              string, indicators will be drawn in their non-floating
+     *              positions.
+     */
     public void setMoveIndicator(int x, int y, String label) {
         moveIndicatorX = x - FONT_OFFSET_X;
         moveIndicatorY = y + FONT_OFFSET_Y;
@@ -218,7 +250,7 @@ class GridCanvas extends JPanel {
     }
 
     /**
-     * Sets the start point.
+     * Updates the start point to draw.
      *
      * @param start The start point.
      */
@@ -227,7 +259,7 @@ class GridCanvas extends JPanel {
     }
 
     /**
-     * Sets the end point.
+     * Updates the end point to draw.
      *
      * @param end The end point.
      */
@@ -247,12 +279,16 @@ class GridCanvas extends JPanel {
     /**
      * Sets the path to draw.
      *
-     * @param path The path of 2D points.
+     * @param path The path of 2D points. If the path is {@code null}, no path
+     *             will be drawn.
      */
     public void setPath(Point2D[] path) {
         this.path = path;
     }
 
+    /**
+     * Toggles debug mode. The default is off.
+     */
     public void toggleDebug() {
         debugOn = !debugOn;
     }

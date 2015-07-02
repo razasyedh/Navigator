@@ -7,9 +7,9 @@
  * array indices.
  */
 public class Point2D {
-    /** The X coordinate */
+    /** The X coordinate. */
     private int x;
-    /** The Y coordinate */
+    /** The Y coordinate. */
     private int y;
 
     /**
@@ -24,7 +24,7 @@ public class Point2D {
      * The overloaded constructor which takes x and y coordinates.
      *
      * @param x The x coordinate.
-     * @param x The y coordinate.
+     * @param y The y coordinate.
      */
     Point2D(int x, int y) {
         this.x = x;

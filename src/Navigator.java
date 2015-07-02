@@ -16,6 +16,9 @@ import javax.swing.WindowConstants;
  * Instantiates the navigator GUI for pathfinding.
  */
 public class Navigator {
+    /**
+     * Instantiates the GUI for the navigator.
+     */
     public static void main(String[] args) {
         DrawFrame frame = new DrawFrame();
         frame.setVisible(true);
@@ -26,13 +29,21 @@ public class Navigator {
  * A GUI for creating and manipulating a fixed-size grid for pathfinding.
  */
 class DrawFrame extends JFrame {
+    /** The width of the nodes in the created grid. */
     private static final int GRID_WIDTH = 15;
+    /** The height of the nodes in the created grid. */
     private static final int GRID_HEIGHT = 10;
 
+    /** The cursor used to indicate movability depending on the platform. */
     private Cursor platformMoveCursor;
-    private int windowWidth, windowHeight;
+    /** The calculated window width based on the grid width. */
+    private int windowWidth;
+    /** The calculated window height based on the grid height. */
+    private int windowHeight;
 
+    /** The mode of the cursor depending on the type of node it is over. */
     private String cursorMode;
+    /** The canvas that draws a grid as well as it's points and path. */
     private GridCanvas gridCanvas;
 
     private final LinkedGrid grid;
@@ -86,7 +97,7 @@ class DrawFrame extends JFrame {
     }
 
     /**
-     * Applies seetings for the main application window.
+     * Applies settings for the main application window.
      */
     private void applySettings() {
         setSize(windowWidth, windowHeight);
@@ -171,7 +182,11 @@ class DrawFrame extends JFrame {
      * interface.
      */
     class MouseMoveListener extends MouseAdapter {
-        private double clickX, clickY;
+        /** The x coordinate of the current click. */
+        private double clickX;
+        /** The y coordinate of the current click. */
+        private double clickY;
+        /** If the click landed on a circle, it's grid coordinates. */
         private Point2D p;
 
         @Override
@@ -234,6 +249,10 @@ class DrawFrame extends JFrame {
             }
         }
 
+        /**
+         * Use the x and y coordinates of the current click and locate if the
+         * click coincided with a circle.
+         */
         private void updateClickLocation(MouseEvent e) {
             clickX = (double) e.getX();
             clickY = (double) e.getY();

@@ -23,7 +23,7 @@ public class DNode extends Node implements Compass<DNode> {
     /**
      * Sets the node's southern neighbor.
      *
-     * @param south The souther node.
+     * @param south The southern node.
      */
     public void setSouth(DNode south) {
         this.south = south;
