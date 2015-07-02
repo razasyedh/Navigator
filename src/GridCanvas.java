@@ -89,7 +89,7 @@ class GridCanvas extends JPanel {
                     // Color the circle based on it's fill value, which
                     // corresponds to it's distance from the start point
                     int nodeColor = (int) ((nodeValue - minValue) * interval);
-                    int red = nodeColor / 3;
+                    int red = nodeColor / RED_FACTOR;
                     int green = 255 - nodeColor;
                     int blue = nodeColor;
                     fillColor = new Color(red, green, blue);

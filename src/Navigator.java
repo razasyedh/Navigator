@@ -60,9 +60,10 @@ class DrawFrame extends JFrame {
      * Sets defaults.
      */
     private void setDefaults() {
+        final int WINDOW_BAR_HEIGHT = 22;
         windowWidth = GRID_WIDTH * GridCanvas.SPAN + 2 * GridCanvas.PADDING;
         windowHeight = GRID_HEIGHT * GridCanvas.SPAN + 2 * GridCanvas.PADDING
-                       +  22; // Account for window bar
+                       +  WINDOW_BAR_HEIGHT;
 
         start = new Point2D(0, 0);
         end = new Point2D(0, 3);
@@ -73,13 +74,14 @@ class DrawFrame extends JFrame {
      * Sets GUI properties depending on whether the platform is OS X.
      */
     public void setPlatformProperties() {
+        final int MENU_BAR_HEIGHT = 20;
         boolean isMacOSX = System.getProperty("os.name").startsWith("Mac OS X");
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         if (isMacOSX) {
             platformMoveCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
         } else {
             platformMoveCursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
-            windowHeight += 20; // Acount for menu bar
+            windowHeight += MENU_BAR_HEIGHT;
         }
     }
 
