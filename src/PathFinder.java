@@ -256,6 +256,33 @@ public class PathFinder implements Navigation {
     }
 
     /**
+     * Returns the start point used by the pathfinder.
+     *
+     * @return The start point.
+     */
+    public Point2D getStart() {
+        return start;
+    }
+
+    /**
+     * Returns the end point used by the pathfinder.
+     *
+     * @return The end point.
+     */
+    public Point2D getEnd() {
+        return end;
+    }
+
+    /**
+     * Returns the grid that the pathfinder was created with.
+     *
+     * @return The grid.
+     */
+    public LinkedGrid getGrid() {
+        return grid;
+    }
+
+    /**
      * Returns the path that was calculated from start to end. If a suitable
      * path couldn't be found, only the start point will be included.
      *

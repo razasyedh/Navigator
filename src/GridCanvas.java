@@ -283,4 +283,31 @@ class GridCanvas extends JPanel {
     public void toggleDebug() {
         debugOn = !debugOn;
     }
+
+    /**
+     * Returns the start point used by the canvas.
+     *
+     * @return The start point.
+     */
+    public Point2D getStart() {
+        return start;
+    }
+
+    /**
+     * Returns the end point used by the canvas.
+     *
+     * @return The end point.
+     */
+    public Point2D getEnd() {
+        return end;
+    }
+
+    /**
+     * Returns the path used by the canvas.
+     *
+     * @return path.
+     */
+    public Point2D[] getPath() {
+        return path;
+    }
 }
