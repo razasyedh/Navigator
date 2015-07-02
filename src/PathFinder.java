@@ -282,32 +282,4 @@ public class PathFinder implements Navigation {
 
         return result;
     }
-
-    public static void main(String[] args) {
-        LinkedGrid grid = new LinkedGrid(5, 8);
-        grid.getNode(0, 2).setValue(BLOCKED);
-        grid.getNode(0, 4).setValue(BLOCKED);
-        grid.getNode(1, 4).setValue(BLOCKED);
-        grid.getNode(2, 4).setValue(BLOCKED);
-
-        System.out.println(grid);
-
-        Point2D start = new Point2D(3, 2);
-        Point2D end = new Point2D(0, 3);
-        System.out.println("Start: " + start);
-        System.out.println("End: " + end);
-
-        System.out.println("Calculating...\n");
-        PathFinder wave = new PathFinder(grid, start, end);
-
-        System.out.println(grid);
-        System.out.println(wave);
-
-        Point2D[] path = wave.getPath();
-        int actualDistance = path.length - 1;
-        int predictedDistance = start.distance(end);
-
-        System.out.println("\nDistance:\n\tActual: " + actualDistance
-                           + "\n\tPredicted:" + predictedDistance);
-    }
 }

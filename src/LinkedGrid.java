@@ -66,16 +66,4 @@ public class LinkedGrid extends Grid {
             }
         }
     }
-
-    public static void main(String[] args) {
-        LinkedGrid test = new LinkedGrid(2, 5);
-        test.getNode(0, 1).setValue(1);
-        test.getNode(1, 0).setValue(2);
-        System.out.println(test);
-
-        DNode north = test.getNode(0, 0).getNorth();
-        DNode east = test.getNode(0, 0).getEast();
-        System.out.println("North of (0,0): " + north);
-        System.out.println("East of (0,0): " + east);
-    }
 }

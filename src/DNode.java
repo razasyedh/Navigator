@@ -93,10 +93,4 @@ public class DNode extends Node implements Compass<DNode>
         DNode[] neighbors = {north, south, east, west};
         return neighbors;
     }
-
-    public static void main(String[] args) {
-        DNode test = new DNode();
-        System.out.println("Value: " + test + "\n" + "North: "
-                           + test.getNorth());
-    }
 }
