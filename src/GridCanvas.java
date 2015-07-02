@@ -30,7 +30,7 @@ class GridCanvas extends JPanel {
     /** The width of the canvas. */
     private final int width;
     /** The grid to read blocked nodes from. */
-    private Grid grid;
+    private final Grid grid;
     /** A start point to label. */
     private Point2D start;
     /** An end point to label. */
@@ -38,7 +38,7 @@ class GridCanvas extends JPanel {
     /** The calculated path to draw. */
     private Point2D[] path;
     /** The graphical nodes. */
-    private Ellipse2D[][] circles;
+    private final Ellipse2D[][] circles;
 
     /** The x coordinate of a floating indicator. */
     private int moveIndicatorX;
@@ -265,15 +265,6 @@ class GridCanvas extends JPanel {
      */
     public void setEnd(Point2D end) {
         this.end = Point2D.reverse(end);
-    }
-
-    /**
-     * Updates the grid to the given grid.
-     *
-     * @param grid The linked grid.
-     */
-    public void setGrid(Grid grid) {
-        this.grid = grid;
     }
 
     /**
