@@ -213,7 +213,7 @@ class DrawFrame extends JFrame {
 
                 // Reset
                 if (p == null) {
-                    gridCanvas.setMoveIndicator(0, 0, "");
+                    gridCanvas.updateMoveIndicator(0, 0, "");
                     gridCanvas.repaint();
                     return;
                 }
@@ -244,7 +244,7 @@ class DrawFrame extends JFrame {
         @Override
         public void mouseDragged(MouseEvent e) {
             if (cursorMode.equals("Start") || cursorMode.equals("End")) {
-                gridCanvas.setMoveIndicator(e.getX(), e.getY(), cursorMode);
+                gridCanvas.updateMoveIndicator(e.getX(), e.getY(), cursorMode);
                 gridCanvas.repaint();
             }
         }

@@ -243,7 +243,7 @@ class GridCanvas extends JPanel {
      *              string, indicators will be drawn in their non-floating
      *              positions.
      */
-    public void setMoveIndicator(int x, int y, String label) {
+    public void updateMoveIndicator(int x, int y, String label) {
         moveIndicatorX = x - FONT_OFFSET_X;
         moveIndicatorY = y + FONT_OFFSET_Y;
         moveIndicatorLabel = label;
