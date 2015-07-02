@@ -84,7 +84,7 @@ class DrawFrame extends JFrame {
     /**
      * Sets GUI properties depending on whether the platform is OS X.
      */
-    public void setPlatformProperties() {
+    private void setPlatformProperties() {
         final int MENU_BAR_HEIGHT = 20;
         boolean isMacOSX = System.getProperty("os.name").startsWith("Mac OS X");
         System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -154,7 +154,7 @@ class DrawFrame extends JFrame {
     /**
      * Resets the path.
      */
-    public void resetPath() {
+    private void resetPath() {
         path = null;
         gridCanvas.setPath(null);
     }
@@ -162,7 +162,7 @@ class DrawFrame extends JFrame {
     /**
      * Resets all blocked nodes in the grid.
      */
-    public void resetGrid() {
+    private void resetGrid() {
         resetPath();
         pathFinder.reset();
         navigate();
@@ -171,7 +171,7 @@ class DrawFrame extends JFrame {
     /**
      * Obtains and shows the path between the start and end point.
      */
-    public void navigate() {
+    private void navigate() {
         path = pathFinder.getPath();
         gridCanvas.setPath(path);
         gridCanvas.repaint();
