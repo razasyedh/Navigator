@@ -1,5 +1,3 @@
-import java.lang.Math;
-
 /**
  * A 2D coordinate pair representing a point on a grid.
  * <p>

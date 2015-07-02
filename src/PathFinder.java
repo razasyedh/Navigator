@@ -1,6 +1,6 @@
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.Queue;
 import java.util.Vector;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * An implementation of the Wavefront algorithm for finding the path between
