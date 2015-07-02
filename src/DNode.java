@@ -89,7 +89,6 @@ public class DNode extends Node implements Compass<DNode> {
      * @return The neighbors as an array.
      */
     public DNode[] getNeighbors() {
-        DNode[] neighbors = {north, south, east, west};
-        return neighbors;
+        return new DNode[]{north, south, east, west};
     }
 }

@@ -90,7 +90,6 @@ public class PathFinder implements Navigation {
      */
     private void fillGrid() {
         Queue<DNode> fillQueue = new LinkedBlockingQueue<>();
-        DNode startNode = grid.getNode(start);
         DNode endNode = grid.getNode(end);
         int fillValue = BLOCKED + 1;
 
