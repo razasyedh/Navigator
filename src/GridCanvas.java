@@ -25,10 +25,10 @@ class GridCanvas extends JPanel {
     /** How much to shift a letter down from the baseline to center it. */
     private final int FONT_OFFSET_Y = 8;
 
-    /** The width of the canvas. */
-    private int x;
     /** The height of the canvas. */
-    private int y;
+    private final int height;
+    /** The width of the canvas. */
+    private final int width;
     /** The grid to read blocked nodes from. */
     private Grid grid;
     /** A start point to label. */
@@ -53,22 +53,22 @@ class GridCanvas extends JPanel {
     /**
      * Creates a canvas of the given size and properties.
      *
-     * @param x The width of the canvas.
-     * @param y The height of the canvas.
+     * @param height The height of the canvas.
+     * @param width The width of the canvas.
      * @param grid A grid to read values from.
      * @param start The start point.
      * @param end The end point.
      */
-    public GridCanvas(int x, int y, Grid grid, Point2D start,
+    public GridCanvas(int height, int width, Grid grid, Point2D start,
                       Point2D end) {
-        this.x = x;
-        this.y = y;
+        this.height = height;
+        this.width = width;
         this.grid = grid;
         this.start = Point2D.reverse(start);
         this.end = Point2D.reverse(end);
         this.moveIndicatorLabel = "";
 
-        circles = new Ellipse2D[x][y];
+        circles = new Ellipse2D[height][width];
     }
 
     /**
@@ -95,8 +95,8 @@ class GridCanvas extends JPanel {
         double interval = 255.0 / (maxValue - minValue);
 
         // Draw nodes
-        for (int row = 0; row < x; row++) {
-            for (int col = 0; col < y; col++) {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
                 // Determine circle color
                 Color fillColor;
                 int nodeValue = grid.getNode(row, col).getValue();
@@ -136,8 +136,8 @@ class GridCanvas extends JPanel {
             drawIndicator(g2, end, "E");
         }
 
-        for (int row = 0; row < x; row++) {
-            for (int col = 0; col < y; col++) {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
                 int nodeValue = grid.getNode(row, col).getValue();
                 Point2D p = new Point2D(col, row);
 
