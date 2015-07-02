@@ -84,20 +84,20 @@ public class Grid {
         // Column numbers
         for (int j = 0; j < cols; j++) {
             String colNum = String.format("%3s", j);
-            result.append(" " + colNum);
+            result.append(" ").append(colNum);
         }
         result.append("\nX _|\n");
 
         for (int i = 0; i < rows; i++) {
             // Row numbers
             String row = String.format("%2s", i);
-            result.append(row + " ");
+            result.append(row).append(" ");
 
             for (int j = 0; j < cols; j++) {
                 String node = grid[i][j].toString();
                 String valueString = String.format("%3s", node);
 
-                result.append(valueString  + " ");
+                result.append(valueString).append(" ");
             }
             result.append("\n");
         }
