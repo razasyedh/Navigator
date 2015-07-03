@@ -13,74 +13,42 @@ public class DNode extends Node implements Compass<DNode> {
     /** The node to the east. */
     private DNode east;
 
-    /**
-     * Sets the node's northern neighbor.
-     *
-     * @param north The northern node.
-     */
+    @Override
     public void setNorth(DNode north) {
         this.north = north;
     }
 
-    /**
-     * Sets the node's southern neighbor.
-     *
-     * @param south The southern node.
-     */
+    @Override
     public void setSouth(DNode south) {
         this.south = south;
     }
 
-    /**
-     * Sets the node's western neighbor.
-     *
-     * @param west The western node.
-     */
+    @Override
     public void setWest(DNode west) {
         this.west = west;
     }
 
-    /**
-     * Sets the node's eastern neighbor.
-     *
-     * @param east The eastern node.
-     */
+    @Override
     public void setEast(DNode east) {
         this.east = east;
     }
 
-    /**
-     * Gets the node's northern neighbor.
-     *
-     * @return The norther node.
-     */
+    @Override
     public DNode getNorth() {
         return north;
     }
 
-    /**
-     * Gets the node's southern neighbor.
-     *
-     * @return The southern node.
-     */
+    @Override
     public DNode getSouth() {
         return south;
     }
 
-    /**
-     * Gets the node's western neighbor.
-     *
-     * @return The western node.
-     */
+    @Override
     public DNode getWest() {
         return west;
     }
 
-    /**
-     * Gets the node's eastern neighbor.
-     *
-     * @return The eastern node.
-     */
+    @Override
     public DNode getEast() {
         return east;
     }
