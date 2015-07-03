@@ -1,3 +1,5 @@
+package com.syedraza.WaveFront;
+
 /**
  * A node that is aware of it's neighbors in 4 directions.
  */

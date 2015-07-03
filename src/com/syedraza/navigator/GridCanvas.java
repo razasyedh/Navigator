@@ -1,3 +1,5 @@
+package com.syedraza.Navigator;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -6,6 +8,10 @@ import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
+
+import com.syedraza.WaveFront.Grid;
+import com.syedraza.WaveFront.PathFinder;
+import com.syedraza.WaveFront.Point2D;
 
 /**
  * Draws a visual representation of a grid with colored and labeled indicators

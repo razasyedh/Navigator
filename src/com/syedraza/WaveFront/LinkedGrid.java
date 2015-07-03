@@ -1,3 +1,5 @@
+package com.syedraza.WaveFront;
+
 /**
  * A linked grid that connects and manages nodes.
  *

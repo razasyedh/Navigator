@@ -1,3 +1,5 @@
+package com.syedraza.Navigator;
+
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
+
+import com.syedraza.WaveFront.LinkedGrid;
+import com.syedraza.WaveFront.Node;
+import com.syedraza.WaveFront.PathFinder;
+import com.syedraza.WaveFront.Point2D;
 
 /**
  * Instantiates the navigator GUI for pathfinding.

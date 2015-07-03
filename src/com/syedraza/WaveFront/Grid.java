@@ -1,3 +1,5 @@
+package com.syedraza.WaveFront;
+
 /**
  * A simple grid of nodes.
  */

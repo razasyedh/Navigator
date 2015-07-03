@@ -1,10 +1,12 @@
+package com.syedraza.WaveFront;
+
 /**
  * Methods a class should implement so that a {@link PathFinder} can navigate
  * nodes based on relative directions.
  *
  * @param <E> the type of the node.
  */
-interface Compass<E> {
+public interface Compass<E> {
     /**
      * Returns the node to the north relative to the current node.
      *

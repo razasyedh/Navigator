@@ -1,10 +1,11 @@
+package com.syedraza.WaveFront;
+
 import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * An implementation of the Wavefront algorithm for finding the path between
- * two points on a grid of linked nodes.
+ * Finds the path between two points on a given grid.
  * <p>
  * Passing {@code null} parameters will throw a {@code NullPointerException}.
  */

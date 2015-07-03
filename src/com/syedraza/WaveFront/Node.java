@@ -1,3 +1,5 @@
+package com.syedraza.WaveFront;
+
 /**
  * A node in a grid that holds a value.
  * <p>

@@ -1,3 +1,5 @@
+package com.syedraza.WaveFront;
+
 /**
  * A 2D coordinate pair representing a point on a grid.
  * <p>
@@ -15,7 +17,7 @@ public class Point2D {
     /**
      * The default constructor which sets the point to (0, 0).
      */
-    Point2D() {
+    public Point2D() {
         x = 0;
         y = 0;
     }
@@ -26,7 +28,7 @@ public class Point2D {
      * @param x The x coordinate.
      * @param y The y coordinate.
      */
-    Point2D(int x, int y) {
+    public Point2D(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -36,7 +38,7 @@ public class Point2D {
      *
      * @param p The Point2D to whose coordinates to copy.
      */
-    Point2D(Point2D p) {
+    public Point2D(Point2D p) {
         x = p.getX();
         y = p.getY();
     }
