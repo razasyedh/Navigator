@@ -22,6 +22,20 @@ The app consists of two parts, a pathfinding library and a GUI.
 2. Block any nodes by setting them to `LinkedGrid.BLOCKED`.
 3. Use the grid and endpoints to create a PathFinder object and get a path.
 
+## Building
+To compile both packages, from the `src` directory, run the following in a terminal:
+
+    javac com/syedraza/WaveFront/PathFinder.java
+    javac com/syedraza/Navigator/Navigator.java
+
+To create a JAR file for WaveFront:
+
+    jar cf com/syedraza/WaveFront/*class
+
+To create a JAR file for the Navigator:
+
+    jar cfm "Navigator.jar" Manifest.txt com/syedraza/*/*class
+
 ## Function
 
 The Navigator app demonstrates the usage of the library, and the `main()` method of the PathFinder class demonstrates a text-only representation.
