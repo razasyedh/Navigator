@@ -302,8 +302,8 @@ public class PathFinder implements Navigation {
     @Override
     public String toString() {
         String result = "";
-        for (int i = 0; i < path.size(); i++) {
-            result += path.get(i) + ", ";
+        for (Point2D point : path) {
+            result += point + ", ";
         }
 
         return result;
