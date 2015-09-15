@@ -35,3 +35,6 @@ To create a JAR file for WaveFront:
 To create a JAR file for the Navigator:
 
     jar cfm "Navigator.jar" Manifest.txt com/syedraza/*/*class
+
+## License
+Navigator is licensed under the Apache License.
