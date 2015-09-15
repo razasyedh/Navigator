@@ -35,15 +35,3 @@ To create a JAR file for WaveFront:
 To create a JAR file for the Navigator:
 
     jar cfm "Navigator.jar" Manifest.txt com/syedraza/*/*class
-
-## Function
-
-The Navigator app demonstrates the usage of the library, and the `main()` method of the PathFinder class demonstrates a text-only representation.
-
-![](./img/graphic.png)
-
-In the GUI, black spaces are nodes that haven't been filled in. The colors represent the distance of the node from the end  point. 'S' represents the start point, 'E' the end point, and 'B' all blocked points. The toggle buttons allow toggling these labels. The navigate button fills in the grid and shows a path. The clear button resets the grid.
-
-![](./img/text.png)
-
-The textual representation of the grid shows the actual coordinates and values of each node. The X and Y axes are labeled accordingly. '0' represents an unfilled node, and '1' represents a blocked node. The text implementation also shows the difference between the distance calculated naively and the actual distance due to blocked nodes.
